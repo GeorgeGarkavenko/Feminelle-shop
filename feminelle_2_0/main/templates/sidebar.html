@@ -1,0 +1,47 @@
+ {% load staticfiles %}
+ 
+<div class="list-group"> 
+     
+     <a href="{% url 'product_class' product_class='novelties' %}" class="list-group-item">Новинки
+     <span class="badge">{{ badges_info.novelties }}</span></a>
+     
+     <a href="{% url 'product_class' product_class='promo' %}" class="list-group-item">Распродажа
+     <span class="badge">{{ badges_info.promo }}</span></a>
+     
+     <a href="{% url 'product_class' product_class='dress,sarafan' %}" class="list-group-item">Платья, сарафаны
+     <span class="badge">{{ badges_info.dress_sarafan }}</span></a>
+
+     <a href="{% url 'product_class' product_class='pants' %}" class="list-group-item">Брюки
+     <span class="badge">{{ badges_info.pants }}</span></a>
+
+     <a href="{% url 'product_class' product_class='jeans' %}" class="list-group-item">Джинсы
+     <span class="badge">{{ badges_info.jeans }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='skirt' %}" class="list-group-item">Юбки
+     <span class="badge">{{ badges_info.skirt }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='blouse,cardigan' %}" class="list-group-item">Блузы, джемперы
+     <span class="badge">{{ badges_info.blouse_cardigan }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='tunic' %}" class="list-group-item">Туники
+     <span class="badge">{{ badges_info.tunic }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='underwear' %}" class="list-group-item">Белье
+     <span class="badge">{{ badges_info.underwear }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='sport' %}" class="list-group-item">Спортивная одежда
+     <span class="badge">{{ badges_info.sport }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='warm' %}" class="list-group-item">Теплая одежда
+     <span class="badge">{{ badges_info.warm }}</span></a>
+          
+     <a href="{% url 'product_class' product_class='coveralls' %}" class="list-group-item">Комбинезоны
+     <span class="badge">{{ badges_info.coveralls }}</span></a>
+     
+     <a href="{% url 'product_class' product_class='coat,poncho,jacket' %}" class="list-group-item">Верхняя одежда
+     <span class="badge">{{ badges_info.coat_poncho_jacket }}</span></a>
+     
+     <a href="{% url 'productsAll' %}" class="list-group-item">Все вещи
+     <span class="badge">{{ badges_info.all }}</span></a>
+
+</div>

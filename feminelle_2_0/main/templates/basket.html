@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_addition %}
+
+    
+{% endblock head_addition %}
+
+{% block content %}
+    
+    <!-- products -->
+    <div>
+        <h1>Заказанные товары:</h1>
+        <a href="{% url 'order' %}">
+            <img class="img-responsive img-rounded" src="{% static 'img/basket_bg.png' %}"/>
+        </a>
+        
+        {% for ordered_product in basket_products %}
+ 
+            <div class="col-md-6 col-md-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ ordered_product.product_id }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="{% url 'product' pk=ordered_product.product_id.id %}">
+                            <img class="img-responsive img-rounded" src='{{ ordered_product.product_id.image.url }}'/>
+                        </a>
+                        <b>Размер:</b> {{ ordered_product.size }} <br/>
+                        <b>Цвет:</b> {{ ordered_product.color }} <br/>
+                        <b>Количество:</b> {{ ordered_product.quantity }} <br/>
+                        <b>Цена:</b> {{ ordered_product.price }} грн<br/>
+                        <form name="product_{{ forloop.counter0 }}" method="POST" action=".">
+                            {% csrf_token %}
+                            <input id="form_name" name="form_name" type="hidden" value="basket">
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" name="quantity_label">Количество</span>
+                                <input id="quantity" name="quantity" value='{{ ordered_product.quantity }}'
+                                       type="number" class="form-control" placeholder="штук"
+                                       aria-describedby="quantity_label">
+                            
+                                <span class="input-group-btn">
+                                    <button class="btn" type="submit" onclick='document.product_{{ forloop.counter0 }}.action_todo.value="update"'>
+                                        <img src="{% static 'img/update.png' %}"/>
+                                    </button>
+                                    
+                                    <button class="btn" type="submit" onclick='document.product_{{ forloop.counter0 }}.action_todo.value="remove"'>
+                                        <img src="{% static 'img/remove_from_cart.png' %}"/>
+                                    </button>
+                                    
+                                    <input id="list_id" name="list_id" type="hidden" value="{{ forloop.counter0 }}">
+                                    <input id="action_todo" name="action_todo" type="hidden" value="">
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <h2>Пусто</h2> 
+        {% endfor %}
+        
+        
+    </div>
+
+{% endblock content %}

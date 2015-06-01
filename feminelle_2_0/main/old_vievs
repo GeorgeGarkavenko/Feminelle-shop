@@ -1,0 +1,329 @@
+def order(request):
+    
+    # backet
+    if handle_basket_query(request):
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    #============================
+    
+    if request.method == 'POST' and request.POST.get('form_name') == 'order':
+        
+        
+        
+        # Validation
+        valid = True
+         
+        # email
+        if not request.POST.get('email'):
+            messages.warning(request, 'E-mail is empty')
+            valid = False
+        
+        if not validateEmail(request.POST.get('email')):
+            messages.warning(request, 'Incorrect e-mail: %s' % request.POST.get('email'))
+            valid = False
+        
+        # bosoms
+        try:
+            bosoms = None
+            if request.POST.get('bosoms'): bosoms = int(request.POST.get('bosoms'))
+        except:
+            messages.warning(request, 'Incorrect bosoms size')
+            valid = False        
+        # grouth
+        try:
+            grouth = None
+            if request.POST.get('grouth'): grouth = int(request.POST.get('grouth'))
+        except:
+            messages.warning(request, 'Incorrect grouth size')
+            valid = False 
+        # hips
+        try:
+            hips = None
+            if request.POST.get('hips'): hips = int(request.POST.get('hips'))
+        except:
+            messages.warning(request, 'Incorrect hips size')
+            valid = False
+        
+        # phone
+        try:
+            phone = None
+            if request.POST.get('phone'): phone = int(request.POST.get('phone'))
+        except:
+            messages.warning(request, 'Incorrect phone number')
+            valid = False
+        # fax
+        try:
+            fax = None
+            if request.POST.get('fax'): fax = int(request.POST.get('fax'))
+        except:
+            messages.warning(request, 'Incorrect fax')
+            valid = False
+        
+        # empty basket case
+        if not request.session.get('basket_products'):
+            messages.warning(request, 'Empty basket. Please order first!')
+            valid = False
+        
+        # Final validation
+        if not valid:
+            messages.error(request, 'Request denied!')
+            # exit
+        else:
+        
+            # DB activity
+            
+            # check by e-mail,
+            # if we have this customer, append/rewrite his data
+            # if havan't, create new one
+            try:
+                customer = Customer.objects.get(email=request.POST.get('email'))
+                
+                additional_name = request.POST.get('name')
+                
+                if not customer.name:
+                    customer.name = additional_name
+                    
+                elif additional_name and not additional_name in customer.name:
+                    customer.name = "%s, %s" % (customer.name, additional_name)
+                
+            except:
+                customer = Customer.objects.create(email = request.POST.get('email'),
+                                    name = request.POST.get('name') )
+            # update new one
+            if bosoms: customer.bosoms = bosoms
+            if grouth: customer.grouth = grouth
+            if hips: customer.hips = hips
+            
+            customer.save()
+    
+            # create and bind an address to customer
+            if request.POST.get('city') or request.POST.get('address') or phone or fax:
+               
+                Address.objects.get_or_create(customer_id=customer.id,
+                                    city = request.POST.get('city'),
+                                    address = request.POST.get('address'),
+                                    phone = phone,
+                                    fax = fax )
+
+             
+            # create new purchase order
+     
+            new_order = Purchase_order.objects.create(customer_id=customer.id,
+                                    delivery = request.POST.get('delivery'),
+                                    payment = request.POST.get('payment'),
+                                    note = request.POST.get('note'),
+                                    price = 0 )
+            
+            # handle basket products
+            products_list = []
+            for product in request.session['basket_products']:
+                new_order.price += product['price']
+                ordered_product = Ordered_product.objects.create(
+                                    order_id = new_order.id,
+                                    product_id = get_object_or_404(Product, id=product['product_id']).id,
+                                    size_id = get_object_or_404(Product_size, name=product['size']).id if product['size'] else None,
+                                    color_id = get_object_or_404(Product_color, name=product['color']).id if product['color'] else None,
+                                    quantity = product['quantity'],
+                                    price = Decimal(str(product['price']))
+                )
+                
+                products_list.append(get_object_or_404(Product, id=product['product_id']).name)
+            
+            new_order.price = Decimal(str(new_order.price))
+            new_order.save()
+     
+            messages.success(request, u'Order %s was created. products: %s' %
+                              (new_order, '; '.join(products_list) ) )
+                
+            del request.session['basket_products']
+            
+            # save changesin session
+            request.session.modified = True
+        
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        
+    context = {'basket_products': get_basket_products(request),
+                'badges_info': get_badges_info(request) }
+    
+    template = 'order.html'
+    
+    return render(request, template, context)
+
+
+class ProductsView(ListView):
+    model = Product
+    template_name = 'products.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+
+        # get sort form parameters from session var
+        
+        # write into session var 'products_selection' 
+        
+        print request.session['products_selection']
+        
+        if not request.session.get('products_selection'):
+            # initial state
+            request.session['products_selection'] = {
+                'orderby': 'name',
+                'limit': 15,
+                'order_type': 'asc'
+            }
+        else:
+            
+            if request.GET.get('orderby'):
+                request.session['products_selection']['orderby'] = request.GET.get('orderby', 'name')
+
+            if request.GET.get('limit'):
+                try:
+                    request.session['products_selection']['limit'] = int(request.GET.get('limit'))
+                except:
+                    request.session['products_selection']['limit'] = 10
+            
+            if request.GET.get('order_type', 'none') != 'none':
+                
+                if request.session['products_selection']['order_type'] == 'asc':
+                    request.session['products_selection']['order_type'] = 'desc'
+                
+                else:
+                    request.session['products_selection']['order_type'] = 'asc'
+        
+        return super(ProductsView, self).dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+  
+        if self.kwargs.get('product_class') != None:
+            
+            product_class_str = self.kwargs.get('product_class').split('|')
+
+            if product_class_str[0] != '':
+                resultSet = getProductsOR(product_class_str[0].split(','))
+            
+            if len(product_class_str) > 1:
+                if product_class_str[0] != '':
+                    resultSet = getProductsAND(product_class_str[1].split(','), resultSet)
+                else:
+                    resultSet = getProductsAND(product_class_str[1].split(','))
+
+            return resultSet
+        
+        else:
+            return super(ProductsView, self).get_queryset()
+        
+    def get_context_data(self, **kwargs):
+        
+        context = super(ProductsView, self).get_context_data(**kwargs)
+        
+        # backet
+        #handle_basket_query(self.request)
+    
+        context['basket_products'] = get_basket_products(self.request)
+        #============================
+        
+        # data for sort_form
+        
+        context['order_type_icon'] = self.request.session['products_selection']['order_type']
+        
+        context['orderby_select'] = {'name': '', 'timestamp': '',
+                                     'price': '', 'popularity': '' }
+
+        context['orderby_select'][self.request.session['products_selection']['orderby']] = 'selected="selected"'
+        
+        context['limit_select'] = { 'v_5': '', 'v_10': '', 'v_15': '',
+                            'v_25': '', 'v_50': '', 'v_75': '',
+                            'v_100': '', 'v_99999': '' }
+        context['limit_select']['v_' + str(self.request.session['products_selection']['limit'])] = 'selected="selected"'
+        
+        
+        # content data
+            # slice products quantity
+        sortedProducts = context['object_list'][:self.request.session['products_selection']['limit']]
+        
+        
+            # sort products
+        def sortFunction(obj):
+            return obj.__getattribute__(self.request.session['products_selection']['orderby'])
+        
+        reverse_type = self.request.session['products_selection']['order_type'] == 'desc'
+
+        sortedProducts = sorted(sortedProducts, key=sortFunction, reverse=reverse_type)
+        
+        context['object_list'] = sortedProducts
+
+        print self.request.session['products_selection']
+        
+        # save changesin session
+        self.request.session.modified = True
+        
+        return context
+
+
+
+class ProductView(DetailView):
+    model = Product
+    template_name = 'product.html'
+
+    def get_context_data(self, **kwargs):
+        
+        context = super(ProductView, self).get_context_data(**kwargs)
+        
+        # backet
+        #handle_basket_query(self.request)
+    
+        context['basket_products'] = get_basket_products(self.request)
+        #=============================
+        
+        
+        context['images'] = Product_image.objects.filter(product_id = self.object)
+        
+        context['product_sizes'] = self.object.product_size.all()
+        context['product_colors'] = self.object.product_color.all()
+        
+        return context
+    
+    def render_to_response(self, context, **response_kwargs):
+        
+        if self.request.GET.get('quantity'):
+            
+            try:
+                quantity=int(self.request.GET.get('quantity'))
+                
+            except:
+                messages.error(self.request, 'Quantity field has incorrect value.')
+                return super(ProductView, self).render_to_response(context, **response_kwargs)
+            
+            if quantity < 1:
+                messages.error(self.request, 'Quantity field must be positive number.')
+                return super(ProductView, self).render_to_response(context, **response_kwargs)
+            
+            
+            if not self.request.session.get('basket_products'):
+                self.request.session['basket_products'] = []
+            
+            basket_products = self.request.session.get('basket_products')    
+            
+            # check if we already have same orderded products
+            search_list = [(d['product_id'], d['size'], d['color']) for d in self.request.session['basket_products']]
+            needed_tuple = self.object.id, self.request.GET.get('size', None), self.request.GET.get('color', None)
+            
+            if needed_tuple in search_list:
+                needed_product = basket_products[search_list.index(needed_tuple)]
+                
+                needed_product['quantity'] += quantity
+                needed_product['price'] += float(quantity * self.object.price)
+                # do the apdate
+            else:
+                # create new temporary product
+                basket_products.append({'product_id': self.object.id,
+                                        'size': self.request.GET.get('size', None),
+                                        'color': self.request.GET.get('color', None),
+                                        'quantity': quantity,
+                                        'price': float(quantity * self.object.price)})
+            # save changesin session
+            self.request.session.modified = True
+            
+            messages.info(self.request, 'Added to a basket %s, quantity: %d.' %
+                          (unicode(self.object), quantity))
+        
+        return super(ProductView, self).render_to_response(context, **response_kwargs)
+    

@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_addition %}
+    
+    
+{% endblock head_addition %}
+
+{% block jquery %}
+    
+    function refreshCaptcha(){
+        var $form = $("#form_order_products");
+        var url = location.protocol + "//" + window.location.hostname + ":"
+                  + location.port + "/captcha/refresh/";
+        
+        // Make the AJAX-call
+        $.getJSON(url, {}, function(json) {
+            $form.find('input[name="captcha_0"]').val(json.key);
+            $form.find('img.captcha').attr('src', json.image_url);
+        });
+    
+        return false;
+    }
+    
+    $('img.captcha').after("<button class='btn captcha-refresh'><img src=\"{% static 'img/update.png' %}\"/></button>");
+
+
+    $('.captcha-refresh').on("click", function(){
+        
+        return refreshCaptcha();
+    });
+    
+    $('#btn_order_products').on("click", function(){
+        
+        return !refreshCaptcha();
+    });
+
+{% endblock %}
+
+{% block content %}
+    
+    <!-- order product form -->
+    <div class="col-md-10">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Заказать</h1>
+            </div>
+            <div class="panel-body">
+                <form id="form_order_products" name="order_product" action="." method="POST">
+                    {% csrf_token %}
+                    <input id="form_name" name="form_name" type="hidden" value="order">
+
+                    <!-- email* -->
+                    <div id="container">
+                        {{ form.email.help_text }}
+                        
+                        <div class="input-group{% if form.email.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.email.label }}">E-mail*</span>
+                            <input id="{{ form.email.auto_id }}" name="{{ form.email.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.email.label }}" value="{{ form.email.value }}">
+                        </div>
+                        {% if form.email.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                E-mail*: <br/>
+                                {{ form.email.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+              
+                    <!-- name -->
+                    <div id="container">
+                        {{ form.name.help_text }}
+                        
+                        <div class="input-group{% if form.name.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.name.label }}">Имя</span>
+                            <input id="{{ form.name.auto_id }}" name="{{ form.name.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.name.label }}" value="{{ form.name.value }}">
+                        </div>
+                        {% if form.name.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                Имя: <br/>
+                                {{ form.name.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+                    
+                    <!-- city & address -->
+                    <div id="container">
+                        {{ form.city.help_text }}
+                        {{ form.address.help_text }}
+                        
+                        <div class="input-group{% if form.city.errors or form.address.errors %} has-error{% endif %}">
+                            <!-- city -->
+                            <span class="input-group-addon" id="label_{{ form.city.label }}">Город</span>
+                            <input id="{{ form.city.auto_id }}" name="{{ form.city.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.city.label }}" value="{{ form.city.value }}">
+                            <!-- address -->
+                            <span class="input-group-addon" id="label_{{ form.address.label }}">Адрес</span>
+                            <input id="{{ form.address.auto_id }}" name="{{ form.address.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.address.label }}" value="{{ form.address.value }}">
+                        </div>
+                        
+                        {% if form.city.errors or form.address.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {% if form.city.errors %}
+                                    Город: <br/>
+                                    {{ form.city.errors }}
+                                {% endif %}
+                                
+                                {% if form.address.errors %}
+                                    Адрес: <br/>
+                                    {{ form.address.errors }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- phone & fax -->
+                    <div id="container">
+                        {{ form.phone.help_text }}
+                        {{ form.fax.help_text }}
+                        
+                        <div class="input-group{% if form.phone.errors or form.fax.errors %} has-error{% endif %}">
+                            <!-- phone -->
+                            <span class="input-group-addon" id="label_{{ form.phone.label }}">Телефон</span>
+                            <input id="{{ form.phone.auto_id }}" name="{{ form.phone.name }}"
+                                   type="number" class="form-control"
+                                   aria-describedby="label_{{ form.phone.label }}" value="{{ form.phone.value }}">
+                            <!-- fax -->
+                            <span class="input-group-addon" id="label_{{ form.fax.label }}">Факс</span>
+                            <input id="{{ form.fax.auto_id }}" name="{{ form.fax.name }}"
+                                   type="number" class="form-control"
+                                   aria-describedby="label_{{ form.fax.label }}" value="{{ form.fax.value }}">
+                        </div>
+                        
+                        {% if form.phone.errors or form.fax.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {% if form.phone.errors %}
+                                    Телефон: <br/>
+                                    {{ form.phone.errors }}
+                                {% endif %}
+                                
+                                {% if form.fax.errors %}
+                                    Факс: <br/>
+                                    {{ form.fax.errors }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- bosoms & grouth & hips -->
+                    <div id="container">
+                        {{ form.bosoms.help_text }}
+                        {{ form.grouth.help_text }}
+                        {{ form.hips.help_text }}
+                        
+                        <div class="input-group{% if form.bosoms.errors or form.grouth.errors or form.hips.errors %} has-error{% endif %}">
+                            <!-- bosoms -->
+                            <span class="input-group-addon" id="label_{{ form.bosoms.label }}">Грудь</span>
+                            <input id="{{ form.bosoms.auto_id }}" name="{{ form.bosoms.name }}"
+                                   type="number" class="form-control"
+                                   aria-describedby="label_{{ form.bosoms.label }}" value="{{ form.bosoms.value }}">
+                            <!-- grouth -->
+                            <span class="input-group-addon" id="label_{{ form.grouth.label }}">Рост</span>
+                            <input id="{{ form.grouth.auto_id }}" name="{{ form.grouth.name }}"
+                                   type="number" class="form-control"
+                                   aria-describedby="label_{{ form.grouth.label }}" value="{{ form.grouth.value }}">
+                                
+                            <!-- hips -->
+                            <span class="input-group-addon" id="label_{{ form.hips.label }}">Бедра</span>
+                            <input id="{{ form.hips.auto_id }}" name="{{ form.hips.name }}"
+                                   type="number" class="form-control"
+                                   aria-describedby="label_{{ form.hips.label }}" value="{{ form.hips.value }}">
+                        
+                        </div>
+                        
+                        {% if form.bosoms.errors or form.grouth.errors or form.hips.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {% if form.bosoms.errors %}
+                                    Грудь: <br/>
+                                    {{ form.bosoms.errors }}
+                                {% endif %}
+                                
+                                {% if form.grouth.errors %}
+                                    Рост: <br/>
+                                    {{ form.grouth.errors }}
+                                {% endif %}
+                                
+                                {% if form.hips.errors %}
+                                    Бедра: <br/>
+                                    {{ form.hips.errors }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- delivery & payment -->
+                    <div id="container">
+                        {{ form.delivery.help_text }}
+                        {{ form.payment.help_text }}
+                        
+                        <div class="input-group{% if form.delivery.errors or form.payment.errors %} has-error{% endif %}">
+                            <!-- delivery -->
+                            <span class="input-group-addon" id="label_{{ form.delivery.label }}">Доставка</span>
+                            <select id="{{ form.delivery.auto_id }}" name="{{ form.delivery.name }}"
+                                    class="form-control"
+                                    aria-describedby="label_{{ form.delivery.label }}">
+                                <option value="none">без доставки</option>
+                                <option value="Ukrpost">«Укрпочта» (несрочная, срочная)</option>
+                                <option selected="selected" value="NewPost">«Новая почта»</option>
+                                <option value="Autolux">«Автолюкс»</option>
+                                <option value="Intime">«Ин-Тайм»</option>
+                            </select>
+                            
+                            <!-- payment --> 
+                            <span class="input-group-addon" id="label_{{ form.payment.label }}">Способ оплаты</span>
+                            <select id="{{ form.payment.auto_id }}" name="{{ form.payment.name }}"
+                                    class="form-control"
+                                    aria-describedby="label_{{ form.payment.label }}">
+                                <option selected="selected" value="Cash">Наличными представителю (г. Киев)</option>
+                                <option value="BankTransfer">Банковский перевод</option>
+                                <option value="OnDelivery">Наложенный платеж</option>
+                            </select>
+                        </div>
+                        
+                        {% if form.delivery.errors or form.payment.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {% if form.delivery.errors %}
+                                    Доставка: <br/>
+                                    {{ form.delivery.errors }}
+                                {% endif %}
+                                
+                                {% if form.payment.errors %}
+                                    Способ оплаты: <br/>
+                                    {{ form.payment.errors }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- note -->
+                    <div id="container">
+                        {{ form.note.help_text }}
+                        
+                        <div class="input-group{% if form.note.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.note.label }}">Заметка</span>
+                            <textarea id="{{ form.note.auto_id }}" name="{{ form.note.name }}"
+                                   type="text" class="form-control" placeholder="Особые пожелания?"
+                                   aria-describedby="label_{{ form.note.label }}">{{ form.note.value }}</textarea>
+                        </div>
+                        {% if form.note.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                Заметка: <br/>
+                                {{ form.note.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+                    <div id="container">
+                        <div class="input-group{% if form.captcha.errors %} has-error{% endif %}">
+                            
+                            <span class="input-group-addon" id="label_{{ form.captcha.label }}">Защита от спама: </span>
+                            
+                            {{ form.captcha }}
+                        </div>
+                        
+                        {% if form.captcha.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {{ form.captcha.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+                    
+                    <input class="btn btn-success btn-block" id="btn_order_products" type="submit" value="В корзину" />
+                </form>
+                
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}

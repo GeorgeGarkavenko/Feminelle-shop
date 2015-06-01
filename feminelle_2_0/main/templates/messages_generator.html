@@ -1,0 +1,27 @@
+<!-- Messages service -->
+{% if messages %}
+  <div class="row">
+    <div class="col-sm-10">
+      {% for message in messages %}
+        <div    {% if message.tags %}
+                  
+                  {% ifequal message.tags 'error' %}
+                    class="alert alert-danger alert-dismissible"
+                  {% else %}
+                    class="alert alert-{{ message.tags }} alert-dismissible"
+                  {% endifequal %}
+                  
+                  role="alert"
+                {% endif %}
+          style="text-align: center">
+          
+            <!-- Close button -->  
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

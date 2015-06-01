@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block jquery %}
+    function refreshCaptcha(){
+        var $form = $("#from_leave_review");
+        var url = location.protocol + "//" + window.location.hostname + ":"
+                  + location.port + "/captcha/refresh/";
+        
+        // Make the AJAX-call
+        $.getJSON(url, {}, function(json) {
+            $form.find('input[name="captcha_0"]').val(json.key);
+            $form.find('img.captcha').attr('src', json.image_url);
+        });
+    
+        return false;
+    }
+    
+    $('img.captcha').after("<button class='btn captcha-refresh'><img src=\"{% static 'img/update.png' %}\"/></button>");
+
+
+    $('.captcha-refresh').on("click", function(){
+        
+        return refreshCaptcha();
+    });
+    
+    $('#btn_leave_review').on("click", function(){
+        
+        return !refreshCaptcha();
+    });
+
+{% endblock %}
+
+{% block content %}
+    
+    <!-- about product -->
+    <h1>{{ object }}</h1>
+    <br/>
+    <div>
+        <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    <img class="img-responsive img-rounded" src='{{ object.image.url }}'/>
+                </td>
+                <td>
+                    <ul>
+                        <li><b>Состав:</b> {{ object.structure }}</li>
+                        <li><b>Дата добавления:</b> {{ object.timestamp }}</li>
+                        <li><b>Описание:</b> {{ object.description }}</li>
+                        <li><b>Цена:</b> {{ object.price }} грн</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <!-- preorder product form -->
+                <div>
+                   <div class="panel panel-primary">
+                       <div class="panel-heading">
+                           <h1 class="panel-title">Добавить в корзину</h1>
+                       </div>
+                       <div class="panel-body">
+                           <form name="order_product" method="POST" action="">
+                               {% csrf_token %}
+                               <input id="form_name" name="form_name" type="hidden" value="product">
+                               
+                               <!-- dropdownlist размер -->
+                               <div class="input-group">
+                                    <span class="input-group-addon" id="size_label">Размер</span>
+                                    <select name="size" class="form-control" aria-describedby="size_label">
+                                        {% for size in product_sizes %}
+                                            {% if forloop.first %}
+                                                <option value="{{ size.name }}" selected="selected">{{ size.name }}</option>
+                                            {% else %}
+                                                <option value="{{ size.name }}">{{ size.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                
+                               <!-- dropdownlist цвет -->
+                                    <span class="input-group-addon" id="color_label">Цвет</span>
+                                    <select name="color" class="form-control" aria-describedby="color_label">
+                                        {% for color in product_colors %}
+                                            {% if forloop.first %}
+                                                <option value="{{ color.name }}" selected="selected">{{ color.name }}</option>
+                                            {% else %}
+                                                <option value="{{ color.name }}">{{ color.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                               
+                               <!-- input_text количество -->
+                                   <span class="input-group-addon" id="quantity_label">Количество</span>
+                                   <input id="quantity" name="quantity" value="1"
+                                          type="number" class="form-control" placeholder="Число"
+                                          aria-describedby="quantity_label">
+                               </div>
+                               <input class="btn btn-success btn-block" id="to_the_basket" type="submit" value="В корзину" />
+                           </form>
+                       </div>
+                   </div>
+                </div>  
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    
+    <div class="col-md-12">
+        <!--Additional product pictures-->
+        <div id="carousel-pictures" class="carousel slide data-interval='1000'" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            {% for image in images %}
+                
+            <li data-target="#carousel-pictures" data-slide-to="{{ forloop.counter0 }}"
+                {% if forloop.first %}
+                    class="active"
+                {% endif %}
+                >
+            </li>
+            
+            {% endfor %}
+          </ol>
+        
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            {% for image in images %}
+            <div
+                {% if forloop.first %}
+                    class="item active"
+                {% else %}
+                    class="item"
+                {% endif %}
+                >
+                <img class="img-responsive img-rounded center-block" src='{{ image.reference.url }}'
+                     alt="{{ image.description }}"/>
+    
+              <div class="carousel-caption">
+                {{ image.description }}
+              </div>
+            </div>
+            
+            {% endfor %}
+    
+          </div>
+        
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-pictures" role="button" data-slide="prev">
+            <i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
+            <span class="sr-only">Предыдущий</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-pictures" role="button" data-slide="next">
+            <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
+            <span class="sr-only">Следующий</span>
+          </a>
+        </div>
+    </div>
+    
+    <!--Review section-->
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Оставить отзыв</h1>
+            </div>
+            <div class="panel-body">
+                <form id="from_leave_review" name="leave_review" action='' method="POST">
+                    {% csrf_token %}
+                    <input id="form_name" name="form_name" type="hidden" value="review">
+                    
+                    {% if review_form.non_field_errors %}
+                        <ul>
+                          {% for error in review_form.non_field_errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                    {% endif %}
+                     
+                    <!--name-->
+                    <div id="container">
+                        {{ review_form.name.help_text }}
+                        
+                        <div class="input-group{% if review_form.name.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ review_form.name.label }}">Имя</span>
+                            <input id="{{ review_form.name.auto_id }}" name="{{ review_form.name.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ review_form.name.label }}" value="{{ review_form.name.value }}">
+                        </div>
+                        <div {% if review_form.name.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ review_form.name.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--email-->
+                    <div id="container">
+                        {{ review_form.email.help_text }}
+                        
+                        <div class="input-group{% if review_form.email.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ review_form.email.label }}">E-mail</span>
+                            <input id="{{ review_form.email.auto_id }}" name="{{ review_form.email.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ review_form.email.label }}" value="{{ review_form.email.value }}">
+                        </div>
+                        <div {% if review_form.email.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ review_form.email.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--title-->
+                    <div id="container">
+                        {{ review_form.title.help_text }}
+                        
+                        <div class="input-group{% if review_form.title.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ review_form.title.label }}">Заглавие</span>
+                            <input id="{{ review_form.title.auto_id }}" name="{{ review_form.title.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ review_form.title.label }}" value="{{ review_form.title.value }}">
+                        </div>
+                        <div {% if review_form.title.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ review_form.title.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--text-->
+                    <div id="container">
+                        {{ review_form.text.help_text }}
+                        
+                        <div class="input-group{% if review_form.text.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ review_form.text.label }}">Отзыв</span>
+                            <textarea id="{{ review_form.text.auto_id }}" name="{{ review_form.text.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ review_form.text.label }}">{{ review_form.text.value }}</textarea>
+                        </div>
+                        <div {% if review_form.text.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ review_form.text.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--author_hided-->
+                    <div id="container">
+                        {{ review_form.author_hided.help_text }}
+                        
+                        <div class="input-group{% if review_form.author_hided.errors %} has-error{% endif %}">
+                             <div class="checkbox">
+                                <label>
+                                  <input id="{{ review_form.author_hided.auto_id }}" name="{{ review_form.author_hided.name }}"
+                                         type="checkbox" aria-describedby="label_{{ review_form.author_hided.label }}"
+                                         {% if review_form.author_hided.value %} checked {% endif %}>
+                                    Не показывать имя 
+                                </label>
+                              </div>
+                        </div>
+                        <div {% if review_form.author_hided.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ review_form.author_hided.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--captcha-->
+                    <div id="container">
+                        <div class="input-group{% if review_form.captcha.errors %} has-error{% endif %}">
+                            
+                            <span class="input-group-addon" id="label_{{ review_form.captcha.label }}">Защита от спама: </span>
+                            
+                            {{ review_form.captcha }}
+                        </div>
+                        
+                        {% if review_form.captcha.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {{ review_form.captcha.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+                    
+                    <input class="btn btn-success btn-block" id="btn_leave_review" type="submit" value="Отправить" />
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-10">
+        {% if review_list %}
+            <h2>Отзывы:</h2>
+            <ul>
+                {% for review in review_list %}
+                  <li>
+                        <h4>
+                            {% if review.author_hided %}
+                                Анонимный пользователь
+                            {% else %}
+                                {{ review.name }} ({{ review.email }})
+                            {% endif %}
+                                , {{ review.date }}
+                        </h4>
+                        <h5>{{ review.title }}</h5>
+                        <p>{{ review.text }}</p>
+                  </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock content %}

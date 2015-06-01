@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_addition %}
+
+    
+{% endblock head_addition %}
+
+{% block jquery %}
+    
+    function refreshCaptcha(){
+        var $form = $("#form_leave_message");
+        var url = location.protocol + "//" + window.location.hostname + ":"
+                  + location.port + "/captcha/refresh/";
+        
+        // Make the AJAX-call
+        $.getJSON(url, {}, function(json) {
+            $form.find('input[name="captcha_0"]').val(json.key);
+            $form.find('img.captcha').attr('src', json.image_url);
+        });
+    
+        return false;
+    }
+    
+    $('img.captcha').after("<button class='btn captcha-refresh'><img src=\"{% static 'img/update.png' %}\"/></button>");
+
+
+    $('.captcha-refresh').on("click", function(){
+
+        return refreshCaptcha();
+    });
+    
+    $('#btn_leave_message').on("click", function(){
+
+        return !refreshCaptcha();
+    });
+    
+    
+{% endblock %}
+
+
+{% block other_scripts %}
+    
+               
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="col-md-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Отправить сообщение администрации</h1>
+            </div>
+            <div class="panel-body">
+                <form id="form_leave_message" name="name_leave_review" action='' method="POST">
+                    {% csrf_token %}
+                    <input id="form_name" name="form_name" type="hidden" value="contact">
+                    
+                    {% if form.non_field_errors %}
+                        <ul>
+                          {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    
+                    <!-- автоматизованная форма (англ.)
+                    {#
+                    {% for field in form %}
+                        <div id="container">
+                            {{ field.help_text }}
+                            
+                            <div class="input-group">
+                                
+                                {% if field.name == 'text' %}
+                                    <span class="input-group-addon" id="label_{{ field.label }}">{{ field.label }}</span>
+                                    <textarea id="{{ field.auto_id }}" name="{{ field.name }}"
+                                           type="text" class="form-control" placeholder="{{ field.label }}"
+                                           aria-describedby="label_{{ field.label }}"></textarea>
+                                
+                                {% elif field.name == 'send_back' %}
+                                     <div class="checkbox">
+                                        <label>
+                                          <input id="{{ field.auto_id }}" name="{{ field.name }}"
+                                                 type="checkbox" aria-describedby="label_{{ field.label }}">
+                                            {{ field.label }}
+                                        </label>
+                                      </div>
+                                    
+                                {% else %}
+                                    <span class="input-group-addon" id="label_{{ field.label }}">{{ field.label }}</span>
+                                    <input id="{{ field.auto_id }}" name="{{ field.name }}"
+                                           type="text" class="form-control" placeholder="{{ field.label }}"
+                                           aria-describedby="label_{{ field.label }}">
+                                {% endif %}
+                            
+                            </div>
+                            <div {% if field.errors %}class="alert alert-danger" role="alert" {% endif %}>
+                                {{ field.errors }}
+                            </div>  
+                        </div>
+                    {% endfor %}
+                     #}
+                     -->
+                    
+                    <!--name-->
+                    <div id="container">
+                        {{ form.name.help_text }}
+                        
+                        <div class="input-group{% if form.name.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.name.label }}">Имя</span>
+                            <input id="{{ form.name.auto_id }}" name="{{ form.name.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.name.label }}" value="{{ form.name.value }}">
+                        </div>
+                        <div {% if form.name.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ form.name.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--email-->
+                    <div id="container">
+                        {{ form.email.help_text }}
+                        
+                        <div class="input-group{% if form.email.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.email.label }}">E-mail</span>
+                            <input id="{{ form.email.auto_id }}" name="{{ form.email.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.email.label }}" value="{{ form.email.value }}">
+                        </div>
+                        <div {% if form.email.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ form.email.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--title-->
+                    <div id="container">
+                        {{ form.title.help_text }}
+                        
+                        <div class="input-group{% if form.title.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.title.label }}">Заглавие</span>
+                            <input id="{{ form.title.auto_id }}" name="{{ form.title.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.title.label }}" value="{{ form.title.value }}">
+                        </div>
+                        <div {% if form.title.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ form.title.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--text-->
+                    <div id="container">
+                        {{ form.text.help_text }}
+                        
+                        <div class="input-group{% if form.text.errors %} has-error{% endif %}">
+                            <span class="input-group-addon" id="label_{{ form.text.label }}">Отзыв</span>
+                            <textarea id="{{ form.text.auto_id }}" name="{{ form.text.name }}"
+                                   type="text" class="form-control"
+                                   aria-describedby="label_{{ form.text.label }}">{{ form.text.value }}</textarea>
+                        </div>
+                        <div {% if form.text.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ form.text.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--send_back-->
+                    <div id="container">
+                        {{ form.send_back.help_text }}
+                        
+                        <div class="input-group">
+                             <div class="checkbox">
+                                <label>
+                                  <input id="{{ form.send_back.auto_id }}" name="{{ form.send_back.name }}"
+                                         type="checkbox" aria-describedby="label_{{ form.send_back.label }}"
+                                         {% if form.send_back.value %} checked {% endif %}>
+                                    Не показывать имя 
+                                </label>
+                              </div>
+                        </div>
+                        <div {% if form.send_back.errors %} class="alert alert-danger" role="alert" {% endif %}>
+                            {{ form.send_back.errors }}
+                        </div>  
+                    </div>
+                    
+                    <!--captcha-->
+                    <div id="container">
+                        <div class="input-group{% if form.captcha.errors %} has-error{% endif %}">
+                            
+                            <span class="input-group-addon" id="label_{{ form.captcha.label }}">Защита от спама: </span>
+                            
+                            {{ form.captcha }}
+                        </div>
+                        
+                        {% if form.captcha.errors %}
+                            <div  class="alert alert-danger" role="alert" >
+                                {{ form.captcha.errors }}
+                            </div> 
+                        {% endif %}
+                    </div>
+                    
+                    <input class="btn btn-success btn-block" id="btn_leave_message" type="submit" value="Отправить" />
+                </form>
+                
+            </div>
+        
+        </div>
+    </div>
+
+{% endblock content %}

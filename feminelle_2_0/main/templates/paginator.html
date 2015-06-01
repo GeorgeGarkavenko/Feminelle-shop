@@ -1,0 +1,41 @@
+ {% load staticfiles %}
+
+     <nav>
+     <ul class="pagination">
+       
+       <li{% if page_surround.previous == 0 %} class="disabled"{% endif %}>
+          
+          <a href="{% url page_name page=page_surround.previous %}" aria-label="Previous">
+          
+           <span aria-hidden="true">&laquo;</span>
+         </a>
+       </li>
+       
+       {% for num in pages_range %}
+          
+          <li{% if num == page_number %} class="active"{% endif %}>
+               
+               <a href="{% url page_name page=num %}">
+                    {{ num }}
+                    
+                    {% if num == page_number %}
+                         <span class="sr-only">(current)</span>
+                    {% endif %}
+               </a>
+          </li>
+       {% endfor %}
+       
+       <li{% if page_surround.next == 'none' %} class="disabled"{% endif %}>
+          
+          {% if page_surround.next == 'none' %}
+               <a href="#" aria-label="Next">
+          {% else %}
+               <a href="{% url page_name page=page_surround.next %}" aria-label="Next">
+          {% endif %}
+         
+           <span aria-hidden="true">&raquo;</span>
+         </a>
+       </li>
+       
+     </ul>
+   </nav>

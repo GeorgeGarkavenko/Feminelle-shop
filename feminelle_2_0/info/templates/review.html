@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_addition %}
+
+    
+{% endblock head_addition %}
+
+{% block content %}
+    
+    <div class="col-md-6 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Оставить отзыв</h1>
+            </div>
+            <div class="panel-body">
+                <form name="leave_review" action='' method="POST">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <ul>
+                          {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    {% for field in form %}
+                        <div id="container">
+                            {{ field.help_text }}
+                            
+                            <div class="input-group">
+                            <span class="input-group-addon" id="{{ field.label_tag }}">{{ field.label_tag }}</span>
+                            <input id="{{ field.auto_id }}" name="{{ field.name }}"
+                                   type="text" class="form-control" placeholder="{{ field.auto_id }}"
+                                   aria-describedby="{{ field.label_tag }}">
+                            </div>
+                            <div {% if field.errors %}class="alert alert-danger" role="alert" {% endif %}>
+                                {{ field.errors }}
+                            </div>  
+                        </div>
+                    {% endfor %}
+                    
+                      <input class="btn btn-success btn-block" id="leave_reviw" type="submit" value="Отправить" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
