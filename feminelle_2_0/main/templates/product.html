@@ -48,7 +48,15 @@
                         <li><b>Состав:</b> {{ object.structure }}</li>
                         <li><b>Дата добавления:</b> {{ object.timestamp }}</li>
                         <li><b>Описание:</b> {{ object.description }}</li>
-                        <li><b>Цена:</b> {{ object.price }} грн</li>
+                        <li><b>Цена:</b>
+                            {% if object.promotioin_modifier %}
+                                <s>{{ object.price }} грн</s>
+                                <span>  </span>
+                                <mark>{{ object.promotioin_modifier }} грн</mark>
+                            {% else %}
+                                {{ object.price }} грн
+                            {% endif %}
+                        </li>
                     </ul>
                 </td>
             </tr>

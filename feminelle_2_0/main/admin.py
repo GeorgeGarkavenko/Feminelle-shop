@@ -58,7 +58,7 @@ class Product_size_admin(admin.ModelAdmin):
 
 
 class Product_admin(admin.ModelAdmin):
-    list_display = ['__unicode__']
+    list_display = ['__unicode__', 'timestamp', 'modtime']
     inlines = [ImageInline]
     class Meta:
         model = Product

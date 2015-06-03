@@ -23,7 +23,7 @@
 {% block content %}
     <h1>Товары</h1>
     <!-- sort form -->
-    <div class="col-md-10">
+    <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">Сортировка</h1>
@@ -72,7 +72,7 @@
     </div>
 
     <!-- products -->
-    <div class="col-md-10">
+    <div class="col-md-12">
         
             {% for product in object_list %}
               <div class="col-sm-4"> 
@@ -84,7 +84,17 @@
                     <h3>{{ product }}</h3>
                 </a>
                     
-                    <h4><b>Цена:</b> {{ product.price }} грн</h4>
+                    
+                    <h4><b>Цена:</b>
+                        
+                        {% if product.promotioin_modifier %}
+                            <s>{{ product.price }} грн</s>
+                            <span>  </span>
+                            <mark>{{ product.promotioin_modifier }} грн</mark>
+                        {% else %}
+                            {{ product.price }} грн
+                        {% endif %}
+                    </h4>
                 <br/><br/>
               </div>
             {% empty %}
@@ -93,7 +103,7 @@
         
     </div>
     
-    <div class="col-md-10">
+    <div class="col-md-12">
         {% include 'paginator_products.html' %}
     </div>
 

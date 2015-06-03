@@ -60,13 +60,13 @@ def getProductsAND(productClass, startProductList=None):
     if products_list_accepted:
         # get day before last product add date
         modTimes = max(item.modtime for item in products_list_accepted)
-        modTimes -= timedelta(days=1)
+        modTimes -= timedelta(minutes=1)
         
         for className in productClass:
             if className == 'novelties':
                 
                 # get next products list by modTimes (as novelties)
-                resultList = resultList.filter(timestamp__gt=modTimes)
+                resultList = resultList.filter(modtime__gt=modTimes)
             else:
                 resultList = resultList.filter(product_class__name=className)
             
@@ -84,14 +84,15 @@ def getProductsOR(productClass, startProductList=None):
         if 'novelties' in productClass:
             # get day before last product add date
             
-            modTimes = max(item.timestamp for item in products_list_accepted)
-            modTimes -= timedelta(days=1)
+            modTimes = max(item.modtime for item in products_list_accepted)
+            modTimes -= timedelta(hours=1)
+            print modTimes
             # get next products list by modTimes (as novelties)
      
             if startProductList:
-                resultList = startProductList.filter(Q(accepted=True), Q(product_class__name__in=productClass) | Q(timestamp__gt=modTimes))
+                resultList = startProductList.filter(Q(accepted=True), Q(product_class__name__in=productClass) | Q(modtime__gt=modTimes))
             else: 
-                resultList=Product.objects.filter(Q(accepted=True), Q(product_class__name__in=productClass) | Q(timestamp__gt=modTimes))
+                resultList=Product.objects.filter(Q(accepted=True), Q(product_class__name__in=productClass) | Q(modtime__gt=modTimes))
         
         else:
             if startProductList:
@@ -101,7 +102,7 @@ def getProductsOR(productClass, startProductList=None):
     else:
         resultList = products_list_accepted
     
-    return resultList
+    return set(resultList)
 
 # basket functionality
 def get_basket_products(request):
@@ -119,6 +120,7 @@ def get_basket_products(request):
             'view_cycle': cycle
         })
         
+        # cycle for viewing ordered products in a basket (3 in a row)
         cycle = 0 if cycle == 2 else cycle + 1
         
     return object_list
@@ -144,8 +146,9 @@ def handle_basket_query(request):
  
                 if quantity > 0:  
                     obj = request.session['basket_products'][list_id]
+                    old_price = obj['price'] / obj['quantity']
                     obj['quantity'] = quantity
-                    obj['price'] = float(get_object_or_404(Product, id=obj['product_id']).price * quantity)
+                    obj['price'] = float(old_price * quantity)
                     
                     # save changesin session
                     request.session.modified = True
@@ -171,19 +174,19 @@ def get_badges_info(request):
         'messages':         Message.objects.count(),
         
         # sidebar
-        'novelties':        getProductsOR(['novelties']).count(),
-        'promo':            getProductsOR(['promo']).count(),
-        'dress_sarafan':    getProductsOR(['dress', 'sarafan']).count(),
-        'pants':            getProductsOR(['pants']).count(),
-        'jeans':            getProductsOR(['jeans']).count(),
-        'skirt':            getProductsOR(['skirt']).count(),
-        'blouse_cardigan':  getProductsOR(['blouse', 'cardigan']).count(),
-        'tunic':            getProductsOR(['tunic']).count(),
-        'underwear':        getProductsOR(['underwear']).count(),
-        'sport':            getProductsOR(['sport']).count(),
-        'warm':             getProductsOR(['warm']).count(),
-        'coveralls':        getProductsOR(['coveralls']).count(),
-        'coat_poncho_jacket': getProductsOR(['coat', 'poncho','jacket']).count(),
+        'novelties':        len(getProductsOR(['novelties'])),
+        'promo':            len(getProductsOR(['promo'])),
+        'dress_sarafan':    len(getProductsOR(['dress', 'sarafan'])),
+        'pants':            len(getProductsOR(['pants'])),
+        'jeans':            len(getProductsOR(['jeans'])),
+        'skirt':            len(getProductsOR(['skirt'])),
+        'blouse_cardigan':  len(getProductsOR(['blouse', 'cardigan'])),
+        'tunic':            len(getProductsOR(['tunic'])),
+        'underwear':        len(getProductsOR(['underwear'])),
+        'sport':            len(getProductsOR(['sport'])),
+        'warm':             len(getProductsOR(['warm'])),
+        'coveralls':        len(getProductsOR(['coveralls'])),
+        'coat_poncho_jacket': len(getProductsOR(['coat', 'poncho','jacket'])),
         'all':              Product.objects.filter(accepted=True).count()
     }
 
@@ -349,7 +352,10 @@ def products(request, new_selection, product_class=None, page=1):
     
     # sort products
     def sortFunction(obj):
-        return obj.__getattribute__(request.session['sort_order']['orderby'])
+        if obj.promotioin_modifier != 0 and request.session['sort_order']['orderby'] == 'price':
+            return obj.__getattribute__('promotioin_modifier')
+        else:
+            return obj.__getattribute__(request.session['sort_order']['orderby'])
     
     reverse_type = request.session['sort_order']['order_type'] == 'desc'
 
@@ -414,11 +420,15 @@ def product(request, pk):
         search_list = [(d['product_id'], d['size'], d['color']) for d in request.session['basket_products']]
         needed_tuple = this_product.id, request.POST.get('size', None), request.POST.get('color', None)
         
+        # if we have promotion on this product use promo price (this_product.promotioin_modifier)
+        needed_price = this_product.price if this_product.promotioin_modifier == 0 \
+            else this_product.promotioin_modifier
+        
         if needed_tuple in search_list:
             needed_product = basket_products[search_list.index(needed_tuple)]
             
             needed_product['quantity'] += quantity
-            needed_product['price'] += float(quantity * this_product.price)
+            needed_product['price'] += float(quantity * needed_price)
             # do the apdate
         else:
             # create new temporary product
@@ -426,7 +436,7 @@ def product(request, pk):
                                     'size': request.POST.get('size', None),
                                     'color': request.POST.get('color', None),
                                     'quantity': quantity,
-                                    'price': float(quantity * this_product.price)})
+                                    'price': float(quantity * needed_price)})
         # save changesin session
         request.session.modified = True
         

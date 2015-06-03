@@ -54,7 +54,7 @@ class Product(models.Model):
    
     # purchase info
     promotion = models.CharField(max_length=225, null=True, blank=True)
-    promotioin_modifier = models.DecimalField(max_digits=4, decimal_places=2, default=1)
+    promotioin_modifier = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
     reserve = models.IntegerField(default=0)
     
