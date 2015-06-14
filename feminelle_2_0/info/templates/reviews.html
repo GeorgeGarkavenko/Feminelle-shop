@@ -197,36 +197,52 @@
     </div>
     
     <div class="col-md-10">
-        <h2>Отзывы:</h2>
-        <ul>
-            {% for record in object_list %}
-              <li>
-                    <h4>
-                        {% if record.review.author_hided %}
-                            Анонимный пользователь
-                        {% else %}
-                            {{ record.review.name }} ({{ record.review.email }})
-                        {% endif %}
-                            , {{ record.review.date }}
-                    </h4>
-                    {% if record.product %}
-                        <h5>Про товар:
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Отзывы</h1>
+            </div>
+            <div class="panel-body">
+                <ul class="media-list">
+                    {% for record in object_list %}
+                    <li class="media" style="border: solid; border-width: 0 0 1px 0; border-color: blue">
+                        {% if record.product %}
+                        <div class="media-left">
                             <a href="{% url 'product' pk=record.product.id %}">
-                                {{ record.product }}
+                                <img class="img-responsive img-rounded"
+                                     src='{{ record.product.image.url }}' style="height: 100px"/>
                             </a>
-                        </h5>
-                        <a href="{% url 'product' pk=record.product.id %}">
-                            <img class="img-responsive img-rounded"
-                                 src='{{ record.product.image.url }}' style="height: 100px"/>
-                        </a>
-                    {% endif %}
-                    
-                    <h5>{{ record.review.title }}</h5>
-                    <p>{{ record.review.text }}</p>
-              </li>
-            {% endfor %}
-        </ul>
+                        </div>
+                        {% endif %}
+                        <div class="media-body">
+                            <h4>
+                                {% if record.review.author_hided %}
+                                    Анонимный пользователь
+                                {% else %}
+                                    {{ record.review.name }} ({{ record.review.email }})
+                                {% endif %}
+                                    , {{ record.review.date }}
+                                    
+                                {% if record.product %}
+                                <h5>
+                                    (<a href="{% url 'product' pk=record.product.id %}">
+                                        {{ record.product }}
+                                    </a>)
+                                </h5>
+                                {% endif %}    
+                            </h4>
+                            
+                            <h5>{{ record.review.title }}</h5>
+                            <p>{{ record.review.text }}</p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
         
+        
+        
+              
     </div>
     
     <div class="col-md-10">

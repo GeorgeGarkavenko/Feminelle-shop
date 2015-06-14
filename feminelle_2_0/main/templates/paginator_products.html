@@ -5,10 +5,16 @@
        
        <li{% if page_surround.previous == 0 %} class="disabled"{% endif %}>
             
-            {% if product_class_info %} 
-              <a href="{% url page_name product_class=product_class_info page=page_surround.previous %}" aria-label="Previous">
+            {% if page_surround.previous == 0 %}
+               <a aria-label="Previous">
             {% else %}
-              <a href="{% url page_name page=page_surround.previous %}" aria-label="Previous">
+            
+              {% if product_class_info %} 
+                <a href="{% url page_name product_class=product_class_info page=page_surround.previous %}" aria-label="Previous">
+              {% else %}
+                <a href="{% url page_name page=page_surround.previous %}" aria-label="Previous">
+              {% endif %}
+            
             {% endif %}
             
             <span aria-hidden="true">&laquo;</span>
@@ -37,7 +43,7 @@
        <li{% if page_surround.next == 'none' %} class="disabled"{% endif %}>
           
           {% if page_surround.next == 'none' %}
-               <a href="#" aria-label="Next">
+               <a aria-label="Next">
           {% else %}
             
               {% if product_class_info %} 

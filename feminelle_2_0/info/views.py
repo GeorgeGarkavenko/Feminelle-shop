@@ -17,14 +17,19 @@ from main.views import handle_basket_query, get_basket_products, get_badges_info
 from .forms import MessageForm, ReviewForm
 
 from .models import News, Review, Message
+
+from .messages import MESSAGES
+
 from main.models import Product
+
+REVIEWS_FOR_PAGE = 5
 
 def news(request):
     
     if handle_basket_query(request):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
-    context = { 'object_list': News.objects.all(),
+    context = { 'object_list': sorted(News.objects.all(), key=lambda item: item.date, reverse=True),
                 'basket_products': get_basket_products(request),
                 'badges_info': get_badges_info(request) }
     
@@ -66,7 +71,7 @@ def reviews(request, page):
                 author_hided = form.cleaned_data['author_hided']
             )
             
-            messages.success(request, 'Your review is accepted!')
+            messages.success(request, MESSAGES['review_accepted'])
 
             return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
@@ -74,7 +79,7 @@ def reviews(request, page):
         form = ReviewForm(initial=dict((k, '') for k in ReviewForm().fields.keys()))
     
     
-    paginator = Paginator(sorted(Review.objects.filter(accepted = True), key=lambda r: r.date, reverse=True), 5)
+    paginator = Paginator(sorted(Review.objects.filter(accepted = True), key=lambda r: r.date, reverse=True), REVIEWS_FOR_PAGE)
     
     pages_range = tuple(n + 1 for n in range(paginator.num_pages))
     
@@ -155,7 +160,7 @@ def contact(request):
                 send_back = form.cleaned_data['send_back']
             )
             
-            messages.success(request, 'We will consider your request.')
+            messages.success(request, MESSAGES['message_accepted'])
 
             return HttpResponseRedirect(request.META['HTTP_REFERER'])
 

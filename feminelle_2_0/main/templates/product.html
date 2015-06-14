@@ -167,7 +167,7 @@
     </div>
     
     <!--Review section-->
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding-top: 40px">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">Оставить отзыв</h1>
@@ -285,26 +285,37 @@
             </div>
         </div>
     </div>
-    
-    <div class="col-md-10">
+
+    <div class="col-md-12">
         {% if review_list %}
-            <h2>Отзывы:</h2>
-            <ul>
-                {% for review in review_list %}
-                  <li>
-                        <h4>
-                            {% if review.author_hided %}
-                                Анонимный пользователь
-                            {% else %}
-                                {{ review.name }} ({{ review.email }})
-                            {% endif %}
-                                , {{ review.date }}
-                        </h4>
-                        <h5>{{ review.title }}</h5>
-                        <p>{{ review.text }}</p>
-                  </li>
-                {% endfor %}
-            </ul>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Отзывы</h1>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                    <tbody>
+                    {% for review in review_list %}
+                        <tr>
+                            <td>
+                                <h4>
+                                    {% if review.author_hided %}
+                                        Анонимный пользователь
+                                    {% else %}
+                                        {{ review.name }} ({{ review.email }})
+                                    {% endif %}
+                                        , {{ review.date }}
+                                </h4>
+                                <h5>{{ review.title }}</h5>
+                                <p>{{ review.text }}</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                    
+                </div>
+            </div>
         {% endif %}
     </div>
 

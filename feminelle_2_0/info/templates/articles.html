@@ -1,37 +1,390 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block head_addition %}
-
-    
-{% endblock head_addition %}
+{% block styles %}
+<style>
+    li.media {
+        border: solid; border-width: 0 0 1px 0;
+        border-color: blue
+    }
+</style>    
+{% endblock styles %}
 
 {% block content %}
     
-    <div>
-        <h1>Все статьи</h1>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
+<div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h1 class="panel-title">Все статьи</h1>
+        </div>
+        <!--
+        STRUCTURE
+            Основная информация
+                Беременность человека
+            Интересные статьи
+                Джинсы для беременных - модно и практично
+                Леггинсы и лосины для беременных
+                Верхняя одежда для беременных
+                Главные критерии выбора брюк для беременных
+                Красивая беременность
+                Особый случай: выбираем вечернее платье для беременных.
+                Едим для двоих
+                Одежда для беременных - что купить?
+                Одежда для беременных
+                Покупка одежды для беременных - 8 простых подсказок будущим мамам
+                Развиваем память малыша у мамы в животике
+                Как сохранить позитивный настрой на девять месяцев ожидания?
+                Как выглядеть красиво все 9 месяцев беременности?
+                Имя ребенка: как его выбирают в наши дни?
+                Стоит ли верить методам определения пола будущего ребенка?
+                Необходимость бюстгальтера для кормления
+                Необходимость пояса-бандажа для беременных
+                Необходимость в специальном бюстгальтере для беременных
+                Карьера или ребенок?
+                Стресс и релаксация во время беременности
+                Размер одежды для беременных
+            Календари беременности
+                Дети@mail.ru
+                МАМА info
+                uaua.info Для хороших родителей    
+        -->
+        <div class="panel-body">
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <a href="https://ru.wikipedia.org/wiki/%D0%91%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA%D0%B0">
+                            <img class="img-responsive img-rounded"
+                                 src='{% static "img/articles/wikipedia.jpeg" %}' style="height: 80px"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <h4 id="media-heading" class="media-heading">  
+                            <a class="anchorjs-link" href="https://ru.wikipedia.org/wiki/%D0%91%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA%D0%B0">
+                                Беременность человека
+                            </a>
+                        </h4>
+                    </div>
+                </li>
+                
+                <li class="media">
+                    <div class="media-left">
+                        <a href="http://mama-lama.com.ua/table/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/">
+                            <img class="img-responsive img-rounded"
+                                 src='{% static "img/articles/mama_lama.png" %}' style="height: 80px"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        
+                        <!--<h4 id="media-heading" class="media-heading">
+                            <a class="anchorjs-link" href="http://mama-lama.com.ua/table/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/">Интересные статьи</a>
+                        </h4>
+                        -->
+                        <!-- Джинсы для беременных - модно и практично-->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20150308122/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/jinsidlyaberemenih.html">
+                                        Джинсы для беременных - модно и практично
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Леггинсы и лосины для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20150111117/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/losinidlybermennih.html">
+                                        Леггинсы и лосины для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Верхняя одежда для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20141213116/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/verhnyayaodegdadlyaberemennyh.html">
+                                        Верхняя одежда для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Главные критерии выбора брюк для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20140922115/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/vibor-bruk.html">
+                                        Главные критерии выбора брюк для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Красивая беременность -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20131215112/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/2013-12-15-12-15-16.html">
+                                        Красивая беременность
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Особый случай: выбираем вечернее платье для беременных. -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20131008110/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/ossobiy-sluchai.html">
+                                        Особый случай: выбираем вечернее платье для беременных.
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Едим для двоих -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20130828109/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/edim-za-dvoih.html">
+                                        Едим для двоих
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Одежда для беременных - что купить? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/20130707108/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/odegda-dlya-beremennih.html">
+                                        Одежда для беременных - что купить?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Одежда для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010060580/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/maternity.html">
+                                        Одежда для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Покупка одежды для беременных - 8 простых подсказок будущим мамам -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010060278/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/8.html">
+                                        Покупка одежды для беременных - 8 простых подсказок будущим мамам
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Развиваем память малыша у мамы в животике -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010052977/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/2010-05-29-06-29-00.html">
+                                        Развиваем память малыша у мамы в животике
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Как сохранить позитивный настрой на девять месяцев ожидания? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010042073/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/positive-mood.html">
+                                        Как сохранить позитивный настрой на девять месяцев ожидания?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Как выглядеть красиво все 9 месяцев беременности? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010042072/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/9.html">
+                                        Как выглядеть красиво все 9 месяцев беременности?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Имя ребенка: как его выбирают в наши дни? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010042071/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/child-name.html">
+                                        Имя ребенка: как его выбирают в наши дни?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Стоит ли верить методам определения пола будущего ребенка? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010042070/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/child-pol.html">
+                                        Стоит ли верить методам определения пола будущего ребенка?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Необходимость бюстгальтера для кормления -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041466/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/panties-for-chil.html">
+                                        Необходимость бюстгальтера для кормления
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Необходимость пояса-бандажа для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041465/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/bandage-needs.html">
+                                        Необходимость пояса-бандажа для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Необходимость в специальном бюстгальтере для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041464/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/panties-needs.html">
+                                        Необходимость в специальном бюстгальтере для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Карьера или ребенок? -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041463/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/work-or-children.html">
+                                        Карьера или ребенок?
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Стресс и релаксация во время беременности -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041262/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/stress.html">
+                                        Стресс и релаксация во время беременности
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Размер одежды для беременных -->
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mama-lama.com.ua/2010041161/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%BD%D0%BE-%D0%B7%D0%BD%D0%B0%D1%82%D1%8C/razmerodezhdy.html">
+                                        Размер одежды для беременных
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="media">
+                    <div class="media-left">
+                        <img class="img-responsive img-rounded"
+                             src='{% static "img/articles/calendar_simple.jpeg" %}' style="height: 80px"/>
+                    </div>
+                    
+                    <div class="media-body">
+                        <h4 id="media-heading" class="media-heading">
+                            Календари беременности
+                        </h4>
+                        
+                        <!-- Nested media object -->
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="https://deti.mail.ru/pregnancy/">
+                                    <img class="img-responsive img-rounded"
+                                        src='{% static "img/articles/mail_ru.jpeg" %}' style="height: 50px"/>
+                                </a>
+                            </div>
+                            
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="https://deti.mail.ru/pregnancy/">
+                                        Дети@mail.ru
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Nested media object -->
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="http://mamainfo.com.ua/kalendar">
+                                    <img class="img-responsive img-rounded"
+                                        src='{% static "img/articles/mama_info.png" %}' style="height: 50px"/>
+                                </a>
+                            </div>
+                            
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://mamainfo.com.ua/kalendar">
+                                       МАМА info
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Nested media object -->
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="http://www.uaua.info/beremennost/beremennost-po-nedelyam/">
+                                    <img class="img-responsive img-rounded"
+                                        src='{% static "img/articles/logo-uaua.png" %}' style="height: 50px"/>
+                                </a>
+                            </div>
+                            
+                            <div class="media-body">
+                                <h4 id="media-heading" class="media-heading">
+                                    <a class="anchorjs-link" href="http://www.uaua.info/beremennost/beremennost-po-nedelyam/">
+                                        Беременность по неделям на uaua.info
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
+</div>
 
 {% endblock content %}

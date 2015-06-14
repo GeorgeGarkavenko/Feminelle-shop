@@ -43,6 +43,10 @@ from .models import (
 
 from info.models import Message, News, Review
 
+from info.messages import MESSAGES
+
+NOVELTIES_TIME_MODE = True
+
 # Some functions
 
 def getProductsAND(productClass, startProductList=None):
@@ -60,10 +64,10 @@ def getProductsAND(productClass, startProductList=None):
     if products_list_accepted:
         # get day before last product add date
         modTimes = max(item.modtime for item in products_list_accepted)
-        modTimes -= timedelta(minutes=1)
+        modTimes -= timedelta(hours=1)
         
         for className in productClass:
-            if className == 'novelties':
+            if className == 'novelties' and NOVELTIES_TIME_MODE:
                 
                 # get next products list by modTimes (as novelties)
                 resultList = resultList.filter(modtime__gt=modTimes)
@@ -81,7 +85,7 @@ def getProductsOR(productClass, startProductList=None):
     products_list_accepted = Product.objects.filter(accepted=True)
     
     if products_list_accepted:
-        if 'novelties' in productClass:
+        if ('novelties' in productClass) and NOVELTIES_TIME_MODE:
             # get day before last product add date
             
             modTimes = max(item.modtime for item in products_list_accepted)
@@ -132,7 +136,7 @@ def handle_basket_query(request):
         try:
             list_id = int(request.POST.get('list_id'))
         except:
-            messages.error(request, 'Incorrect list index')
+            messages.error(request, MESSAGES['basket_index_error'])
   
         if request.POST.get('action_todo', '') == 'remove':
             del request.session['basket_products'][list_id]
@@ -154,10 +158,10 @@ def handle_basket_query(request):
                     request.session.modified = True
                     
                 else:
-                    messages.error(request, 'Number must be positive (position # %d)' % (list_id + 1) )
+                    messages.error(request, MESSAGES['basket_neg_quantity_error'] % (list_id + 1) )
 
             except:
-                messages.error(request, 'Incorrect number: "%s" (position # %d)' %
+                messages.error(request, MESSAGES['basket_quantity_error'] %
                       (request.POST.get('quantity', '0'), list_id + 1 ) )
         
         return True
@@ -291,7 +295,7 @@ def products(request, new_selection, product_class=None, page=1):
                 
                 query = Q(product_class__name__in=search_query)|\
                         Q(product_color__name__in=search_query)|\
-                        Q(product_size__name__in=search_query)
+                        Q(product_size__name__in=[item.upper() for item in search_query])
                 
                 #article
                 #name
@@ -368,7 +372,7 @@ def products(request, new_selection, product_class=None, page=1):
     print pages_range
     try:
         if not (int(page) in pages_range):
-            raise Http404
+            page = pages_range[-1]
     except:
         raise Http404   
     
@@ -394,7 +398,6 @@ def product(request, pk):
     try:
         this_product = get_object_or_404(Product, id=int(pk), accepted=True)
     except:
-        messages.error(request, '%s is not a valid product id number!' % (pk))
         raise Http404
     
     # Handle order for adding to the backet
@@ -404,44 +407,47 @@ def product(request, pk):
         try:
             quantity=int(request.POST.get('quantity'))
             
+            if quantity < 1:
+                quantity = None
+                messages.error(request, MESSAGES['product_neg_number_error'])
         except:
-            messages.error(request, 'Quantity field has incorrect value.')
-        
-        if quantity < 1:
-            messages.error(request, 'Quantity field must be positive number.')
+            quantity = None
+            messages.error(request, MESSAGES['product_number_error'])
         
         
-        if not request.session.get('basket_products'):
-            request.session['basket_products'] = []
         
-        basket_products = request.session.get('basket_products')    
-        
-        # check if we already have same orderded products
-        search_list = [(d['product_id'], d['size'], d['color']) for d in request.session['basket_products']]
-        needed_tuple = this_product.id, request.POST.get('size', None), request.POST.get('color', None)
-        
-        # if we have promotion on this product use promo price (this_product.promotioin_modifier)
-        needed_price = this_product.price if this_product.promotioin_modifier == 0 \
-            else this_product.promotioin_modifier
-        
-        if needed_tuple in search_list:
-            needed_product = basket_products[search_list.index(needed_tuple)]
+        if quantity:
+            if not request.session.get('basket_products'):
+                request.session['basket_products'] = []
             
-            needed_product['quantity'] += quantity
-            needed_product['price'] += float(quantity * needed_price)
-            # do the apdate
-        else:
-            # create new temporary product
-            basket_products.append({'product_id': this_product.id,
-                                    'size': request.POST.get('size', None),
-                                    'color': request.POST.get('color', None),
-                                    'quantity': quantity,
-                                    'price': float(quantity * needed_price)})
-        # save changesin session
-        request.session.modified = True
-        
-        messages.info(request, 'Added to a basket %s, quantity: %d.' %
-                      (unicode(this_product), quantity))
+            basket_products = request.session.get('basket_products')    
+            
+            # check if we already have same orderded products
+            search_list = [(d['product_id'], d['size'], d['color']) for d in request.session['basket_products']]
+            needed_tuple = this_product.id, request.POST.get('size', None), request.POST.get('color', None)
+            
+            # if we have promotion on this product use promo price (this_product.promotioin_modifier)
+            needed_price = this_product.price if this_product.promotioin_modifier == 0 \
+                else this_product.promotioin_modifier
+            
+            if needed_tuple in search_list:
+                needed_product = basket_products[search_list.index(needed_tuple)]
+                
+                needed_product['quantity'] += quantity
+                needed_product['price'] += float(quantity * needed_price)
+                # do the apdate
+            else:
+                # create new temporary product
+                basket_products.append({'product_id': this_product.id,
+                                        'size': request.POST.get('size', None),
+                                        'color': request.POST.get('color', None),
+                                        'quantity': quantity,
+                                        'price': float(quantity * needed_price)})
+            # save changesin session
+            request.session.modified = True
+            
+            messages.info(request, MESSAGES['product_add_info'] %
+                          (this_product, quantity))
         
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
@@ -464,7 +470,7 @@ def product(request, pk):
                 product_id = this_product.id
             )
             
-            messages.success(request, 'Your review is accepted!')
+            messages.success(request, MESSAGES['review_accepted_success'])
 
             return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
@@ -502,7 +508,7 @@ def order(request):
         
         have_products = bool(request.session.get('basket_products'))
         if not have_products:
-            messages.error(request, u'Your basket is empty. Please, order first.')
+            messages.error(request, MESSAGES['order_emty_basket_error'])
             
         if form.is_valid() and have_products:
             
@@ -564,13 +570,13 @@ def order(request):
                                     price = Decimal(str(product['price']))
                 )
                 
-                products_list.append(get_object_or_404(Product, id=product['product_id']).name)
+                products_list.append(get_object_or_404(Product, id=product['product_id']))
             
-            new_order.price = Decimal(str(new_order.price))
+            new_order.price = Decimal(str(float(new_order.price) * float(customer.promotioin_modifier)))
             new_order.save()
      
-            messages.success(request, u'Order %s was created. products: %s' %
-                              (new_order, '; '.join(products_list) ) )
+            messages.success(request, MESSAGES['order_success'] %
+                              (new_order, '; '.join(map(str, products_list)) ) )
                 
             del request.session['basket_products']
             

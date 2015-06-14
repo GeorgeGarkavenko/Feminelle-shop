@@ -2,42 +2,65 @@
 MAIN TECHNOLOGIES/STRUCTURES
 	
 	Applications:
-		main (Products, Orders)
-		info
+		main (Products, Orders, Basket)
+		info (Reviews, Messages, Articles, Info)
 		
 	Paragraphs:
 		Products
-			catalogue (classification: all, left products menue)
-			products
-			sort by: (name, price, article, date)
-			pagination
-			search: (moodes: products, (future extention)all) 
+			catalogue (page, left products menue; categories counts(lazy: if products bable is altered in DB))
+			products (categories:
+					novelties (if not a class, last hour added/altered products (may disable)), 
+					promo,
+					dress,
+					sarafan,
+					pants,
+					jeans,
+					skirt,
+					blouse,
+					cardigan,
+					tunic,
+					underwear,
+					sport,
+					warm,
+					coveralls,
+					coat,
+					poncho,
+					jacket,
+					all (not a Product_class);
+				  lazy products list download: only first entry of the set, pagination links will use cach products set
+				 )
+				 
+			sort by: (name, price, popularity, date; asc/desc order)
+			pagination (products quantity per page)
+			search: (moodes: products ) 
 				product search fields:
-					article
-					name
 					product_class
-					manufacturer
-					season
 					product_color
 					product_size
+					article
+					name
+					manufacturer
+					season
 					structure
 					description
 					promotion
 					note
 				
-				(extended categories:
+				(posible extended categories:
 				static pages (home, catalogue, history);
 				database records (products, news);
 				templates (articles)
 				)
 				
-			prices
+			prices (if promotion price (promotioin_modifier) not 0, display it too)
 			badges(
 				navbar: (reviews, basket_count, news, articles)	
 				sidebar: (novelties, promo, dress_sarafan, pants, jeans, skirt,
 						blouse_cardigan, tunic, underwear, sport, warm,
 						coveralls, coat_poncho_jacket, all)
 			)
+			
+			Cookies&sessions expiry time: one day
 		Orders
 			order fields:
 				email*,
@@ -56,49 +79,59 @@ MAIN TECHNOLOGIES/STRUCTURES
 				all ordered products,
 				total price,
 				(AutoComplete(?), captcha) 
-			promotions (promotional merchandise, regular customer, )
+			promotions (promotional merchandise (included in basket price),
+				    regular customer discount, )
 			basket
 			basket usig sessions (SETTINGS: LocMemCache and cached_db engine)
 				Ordered_product list in request.sessioin
 			
 		Info
 			languages (russian, ukrainian, english)
-			links
+			
 			static info support: (terms of payment, delivery; sizes, articles, history)
 			site map
 			news
 			reviews (email or new one, captcha, media output)
-			contact request
+				- simple (display at reviews page),
+				- binded to products (display at according product pages and at reviews page)
 			
+				pagination (
+					- product reviews quantity on product page: all,
+					- all reviews quantity per page: 5 (NOVELTIES_TIME_MODE),
+					)
+			message to administration
+			
+	WEB PAGES (back end functionality):
+		
+	WEB PAGES (front end functionality):
+	
 	WEB PAGES (links):
 		- home <-  feminelle logo, navbar
 		- news <-  navbar/Инфо
 		- catalogue <- navbar
-			- all <- sidebar
-			- category
-			- promo
+		- sizes table <- navbar
+		
+		- products <- sidebar, navbar
 		- product <- galery, backet 
 		- order <-  backet
 		- basket <- navbar
 		
+		- reviews <- navbar/Инфо
+		- news <- navbar/Инфо
 		- articles <- navbar/Инфо
-		- sizes table <- navbar
 		- article(article) <- articles
 		
-		- reviews <- navbar
-		- review <- reviews
-		
-		- history <- navbar/Инфо
 		- contact <- navbar/Инфо
+		- history <- navbar/Инфо
 		- sitemap <- navbar/Инфо
 		- 404 <- 
 		- 400 <- 
 		- 500 <-
 		
-	WEB PAGES (forms):
+	WEB forms:
 		- base: search(input_text поиск, button_submit Найти),
 			language(button русский, button украинский, button английский),  
-		- catalogue
+		- products
 			- all: sort_form(dropdownlist Сортировка (
 						название товара,
 						дата поступления,
@@ -106,14 +139,10 @@ MAIN TECHNOLOGIES/STRUCTURES
 						популярность
 						)
 					dropdownlist Количество(
-						5, 10, 15, 25, 50, 75, 100,	
+						1, 2, 5, 10, 15, 25, 50, 75, 100,	
 						все,
 						)
 					)
-					pagination(pages buttons(previous,
-								 records per page,
-								 next,
-								 pages numbers))
 			- one category: sort_form
 					pagination
 					
@@ -132,10 +161,6 @@ MAIN TECHNOLOGIES/STRUCTURES
 				captcha,
 				button Отправить
 				)
-			   pagination(pages buttons(previous,
-							records per page,
-							next)
-							10 record per page)
 				
 		- order: order(order fields)
 		- basket: ordered_product(
@@ -178,31 +203,6 @@ MAIN TECHNOLOGIES/STRUCTURES
 		Комбинезоны  (coveralls)
 		Верхняя одежда  (coat,poncho,jacket)
 		Все вещи  ()
-	
-	Product classification (old):
-		Брюки
-		Джинсы
-		Шорты/капри
-		Легинсы/лосины
-		Платья
-		Сарафаны
-		Блузки/джемпера
-		Туники
-		Комбинезоны
-		Юбки
-		Теплая одежда
-		Верхняя одежда
-		Для кормления
-		Одежда больших размеров (от XXL)
-
-
-	image name:
-		
-		<path><product>.jpg
-		
-		<path> = <node>_[<path>]
-		
-		<product> = ##########
 		
 TESTS
 	POSITIVE TESTS:
@@ -302,8 +302,8 @@ DB
 		author
 		email
 		date
-		//accepted
-		//product_id -> product
+		accepted
+		product_id -> product
 	
 	message
 		title

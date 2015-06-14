@@ -9,29 +9,30 @@
 {% block content %}
     
     <div>
-        <h1>Новости</h1>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Новости</h1>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                <tbody>
+                {% for record in object_list %}
+                    <tr>
+                        <td>
+                            <h2>{{ record.title }}</h2>
+                            <p>
+                                {{ record.text }}
+                            </p>
+                            
+                            <div style="text-align: right">{{ record.author }} ({{ record.date }})</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+        
     </div>
 
 {% endblock content %}

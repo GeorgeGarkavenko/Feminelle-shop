@@ -1,5 +1,6 @@
 body {
   padding-top: 10px;
+  background: center;
 }
 .starter-template {
   padding: 40px 15px;
@@ -8,4 +9,23 @@ body {
 
 .input-group {
   padding-bottom: 15px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.navbar-default {
+  background-color: gold;
+  font-size: large;
+}
+
+a.list-group-item, .panel {
+  background-color: azure;
+  font-size: large;
+}
+
+#sizes_table {
+  font-size: large;
 }

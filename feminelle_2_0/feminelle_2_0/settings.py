@@ -75,6 +75,9 @@ CACHES = {
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
+# expiry time one day
+SESSION_COOKIE_AGE = 24 * 60 * 60
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

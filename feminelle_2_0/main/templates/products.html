@@ -13,8 +13,8 @@
         padding-bottom: 15px;
       }
       
-      h3 {
-        height: 90px;
+      div#block_info {
+        height: 130px;
       }
 
     </style>
@@ -23,7 +23,7 @@
 {% block content %}
     <h1>Товары</h1>
     <!-- sort form -->
-    <div class="col-md-12">
+    <div class="">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1 class="panel-title">Сортировка</h1>
@@ -70,41 +70,49 @@
             </div>
         </div>
     </div>
-
+    
     <!-- products -->
-    <div class="col-md-12">
-        
+    <div class="">
+        <div class="panel panel-primary">
+            <!--<div class="panel-heading">
+                <h1 class="panel-title">Товары</h1>
+            </div>-->
+            <div class="panel-body">
             {% for product in object_list %}
               <div class="col-sm-4"> 
                 <a href="{% url 'product' pk=product.id %}">
                     <img class="img-responsive img-rounded"
                          src='{{ product.image.url }}' style="height: 400px"/>
                 </a>
-                <a href="{% url 'product' pk=product.id %}">
-                    <h3>{{ product }}</h3>
-                </a>
+                
+                <div id='block_info'>
                     
+                    <a href="{% url 'product' pk=product.id %}">
+                        <h3 id="product_name">{{ product }}</h3>
+                    </a>
                     
-                    <h4><b>Цена:</b>
+                    <h4 id="product_price"><b>Цена:</b>
                         
                         {% if product.promotioin_modifier %}
                             <s>{{ product.price }} грн</s>
-                            <span>  </span>
                             <mark>{{ product.promotioin_modifier }} грн</mark>
                         {% else %}
                             {{ product.price }} грн
                         {% endif %}
                     </h4>
-                <br/><br/>
+                </div> <!--block info-->
               </div>
             {% empty %}
                 <h3>Не найдено</h3>
             {% endfor %}
-        
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-12">
+            {% include 'paginator_products.html' %}
+        </div>
     </div>
     
-    <div class="col-md-12">
-        {% include 'paginator_products.html' %}
-    </div>
 
 {% endblock content %}
