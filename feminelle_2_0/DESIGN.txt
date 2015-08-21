@@ -48,7 +48,7 @@ MAIN TECHNOLOGIES/STRUCTURES
 				
 				(posible extended categories:
 				static pages (home, catalogue, history);
-				database records (products, news);
+				database records (Review, News);
 				templates (articles)
 				)
 				
@@ -66,8 +66,8 @@ MAIN TECHNOLOGIES/STRUCTURES
 				email*,
 				name,
 				city,
-				address*,
-				phone*,
+				address,
+				phone,
 				fax
 				(sizes: brests, grouth, hips),
 				delivery,
@@ -114,7 +114,7 @@ MAIN TECHNOLOGIES/STRUCTURES
 		- products <- sidebar, navbar
 		- product <- galery, backet 
 		- order <-  backet
-		- basket <- navbar
+		- basket(Modal) <- navbar
 		
 		- reviews <- navbar/Инфо
 		- news <- navbar/Инфо
@@ -132,7 +132,7 @@ MAIN TECHNOLOGIES/STRUCTURES
 		- base: search(input_text поиск, button_submit Найти),
 			language(button русский, button украинский, button английский),  
 		- products
-			- all: sort_form(dropdownlist Сортировка (
+			sort_form(dropdownlist Сортировка (
 						название товара,
 						дата поступления,
 						цена,
@@ -142,9 +142,8 @@ MAIN TECHNOLOGIES/STRUCTURES
 						1, 2, 5, 10, 15, 25, 50, 75, 100,	
 						все,
 						)
+					button (asc/desc)
 					)
-			- one category: sort_form
-					pagination
 					
 		- product: order_product(
 				dropdownlist размер,
@@ -157,7 +156,7 @@ MAIN TECHNOLOGIES/STRUCTURES
 				input_text e-mail,
 				input_text Тема,
 				input_textarea Текст,
-				checkbox Не показывать имени,
+				checkbox Не показывать имя,
 				captcha,
 				button Отправить
 				)
@@ -169,7 +168,7 @@ MAIN TECHNOLOGIES/STRUCTURES
 				button удалить
 				)
 		- reviews:
-			from_leave_review (
+			leave_review (
 				input_text Имя,
 				input_text e-mail,
 				input_text Тема,
@@ -189,46 +188,139 @@ MAIN TECHNOLOGIES/STRUCTURES
 				)
 		
 	Product classification:
-		Новинки ()
-		Распродажа  (promo)
-		Платья, сарафаны  (dress,sarafan)
-		Брюки  (pants)
-		Джинсы  (jeans)
-		Юбки  (skirt)
-		Блузы, джемперы  (blouse,cardigan)
-		Туники  (tunic)
-		Белье  (underwear)
-		Спортивная одежда  (sport)
-		Теплая одежда  (warm)
-		Комбинезоны  (coveralls)
-		Верхняя одежда  (coat,poncho,jacket)
-		Все вещи  ()
+		Новинки (novelities) 			http://127.0.0.1:8000/catalogue/novelties
+		Распродажа (promo) 			http://127.0.0.1:8000/catalogue/promo
+		Платья, сарафаны  (dress,sarafan) 	http://127.0.0.1:8000/catalogue/dress%2Csarafan
+		Брюки (pants) 				http://127.0.0.1:8000/catalogue/pants
+		Шорты (shorts)				http://127.0.0.1:8000/catalogue/shorts
+		Джинсы (jeans) 				http://127.0.0.1:8000/catalogue/jeans
+		Юбки (skirt) 				http://127.0.0.1:8000/catalogue/skirt
+		Блузы, джемперы  (blouse,cardigan) 	http://127.0.0.1:8000/catalogue/blouse%2Ccardigan
+		Туники  (tunic) 			http://127.0.0.1:8000/catalogue/tunic
+		Белье (underwear) 			http://127.0.0.1:8000/catalogue/underwear
+		Спортивная одежда  (sport) 		http://127.0.0.1:8000/catalogue/sport
+		Теплая одежда (warm) 			http://127.0.0.1:8000/catalogue/warm
+		Комбинезоны (coveralls) 		http://127.0.0.1:8000/catalogue/coveralls
+		Верхняя одежда (coat,poncho,jacket) 	http://127.0.0.1:8000/catalogue/coat%2Cponcho%2Cjacket
+		Все вещи () 				http://127.0.0.1:8000/catalogue/all
 		
 TESTS
-	POSITIVE TESTS:
-	
-	load all pages without parameters (check response code):
-		- home 
-		- catalogue
-		- order 
-		- one of the product page
-		- news
-		- reviews
-		- site map
-	
-	test web forms (one case)
-		- order
-		- review
-		- search
-		- product sort
-		- language form
+	TEST CASES:
+	    POSITIVE TESTS:
+		Pages load (automation): (use defaults: sort, pagination, empty basket, )
+			(
+			home,
+			catalogue,
+			all products (init page),
+			product (id 1),
+			product classes (init page): (Product classification)
+			order,
+			news,
+			articles,
+			sizes table,
+			article 'pregnancy',
+			reviews (page 1),
+			contact,
+			sitemap,
+			admin
+			)
+			
+		Examine links (automation): (
+			main($  ls main/templates/ | xargs -l -i basename {} .html | xargs -l -i echo -\ {}\ \(\ \) ):
+			- 400 ( )
+			- 404 ( )
+			- 500 ( )
+			- base ( )
+			- catalogue (pictures, links) (Product classification)
+			- home (
+				- carusel baner, right (http://127.0.0.1:8000/#carousel-pictures)
+				- carusel baner, left  (http://127.0.0.1:8000/#carousel-pictures)
+				- novelties section header button (http://127.0.0.1:8000/catalogue/novelties)
+				- novelties first product (picture, link)
+				- promo section header button (http://127.0.0.1:8000/catalogue/promo)
+				- promo first product (picture, link)
+				- news section header button (http://127.0.0.1:8000/news/)
+				)
+			- messages_generator ( )
+			- navbar (
+				- logo home page ref (http://127.0.0.1:8000/)
+				- catalogue ref (http://127.0.0.1:8000/catalogue/)
+				- basket modal window (#)
+					- first product picture image ref
+					- order button (http://127.0.0.1:8000/order/)
+				- info menue (#)
+					- reviews (http://127.0.0.1:8000/reviews/1)
+					- news (http://127.0.0.1:8000/news/)
+					- articles (http://127.0.0.1:8000/articles/)
+					- sizis table (http://127.0.0.1:8000/articles/sizes_table)
+					- contacts (http://127.0.0.1:8000/contact/)
+					- sitemap (http://127.0.0.1:8000/sitemap/)
+				)
+			- order ( )
+			- paginator (
+				- previous page
+				- next page
+				- first page
+				)
+			- paginator_products (
+				- previous page
+				- next page
+				- first page
+				)
+			- product (
+				- carusel baner, right (#carousel-pictures)
+				- carusel baner, left  (#carousel-pictures)
+				)
+			- products (
+				- first product picture image ref
+				- first product picture ref
+				)
+			- sidebar (links) (Product classification)
+
+		
+			info($ ls info/templates/ | xargs -l -i basename {} .html | xargs -l -i echo -\ {}\ \(\ \) ):
+			- articles ( articles list check )
+			- contact ( )
+			- history ( )
+			- news ( )
+			- newsItem ( )
+			- reviews (
+				- first product picture image ref
+				- first product picture ref
+				)
+			- sitemap ( ? )
+			- sizes_table ( )
+		)
+		
+		Test main backend functionality  (
+			Page forms:
+			main (
+				- basket
+				- order
+				- sort products
+				- search
+				
+				(additional)
+				- product's difficult classes selections
+				
+			)
+			info (
+			
+			)
+		)
+		
+		Test frontend features (
+			- captcha (order, review, message)
+		)
+		Test frontend sizing blocks functionality ()
+	     
 	
 	NEGATIVE TESTS:
 		
 		
 	
 DB
-	tables: products, orders, ordered_products, customers, news, reviews
+	tables: (products, orders, ordered_products, customers, news, reviews)
 	
 	product:
 		article
@@ -288,7 +380,7 @@ DB
 		city
 		address
 		fax
-		phone*
+		phone
 		
 	news
 		title
@@ -339,58 +431,39 @@ EXAMPLES
 	http://www.womenmagazine.kiev.ua/
 	
 	http://mama-lama.com.ua/
-	=======================================
-	Главное меню:
+	
+TEXT SAMPLES:
 
-	     Главная
-	    Каталог ТОваров
-	    Доставка и оплата
-	    таблицы размеров
-	    Полезная информация
-		Скидки
-		Статьи
-	    Распродажа
-	    Новые поступления
-	    О нас
-		Новости
-		Контакты
-	-------------
-	Категории одежы
+Новинки (novelities) 
+Распродажа (promo) 
+Платья, сарафаны  (dress,sarafan) 
+Брюки (pants)
+Шорты (shorts)
+Джинсы (jeans) 
+Юбки (skirt) 
+Блузы, джемперы  (blouse,cardigan) 
+Туники  (tunic) 
+Белье (underwear) 
+Спортивная одежда  (sport) 
+Теплая одежда (warm) 
+Комбинезоны (coveralls) 
+Верхняя одежда (coat,poncho,jacket) 
+Все вещи () 
 
-	    белье
-		Бандажи
-		Бюстгалтеры
-		Колготы, лосины
-		Трусики
-		Купальники
-	    брюки/джинсы
-		Брюки
-		Джинсы
-		Шорты/капри
-		Легинсы/лосины
-	    платья/сарафаны
-	    блузки/джемпера/туники
-	    комбинезоны
-	    юбки
-	    спортивная одежда
-	    теплая одежда
-	    верхняя одежда
-	    для сна и дома
-		Ночные рубашки
-		Пижамы
-		Халаты
-	    для кормления
-		Блузы, джемпера
-		Ночные пижамы, рубашки
-		Платья
-		Подушки для кормления
-	    одежда больших размеров
-	    (от 2XL)
-	    детская одежда
-		Боди, комбинезоны
-		Комплекты одежды
-		Одежда для крещения
-		Пеленки, намотрасники
-	    веселая футболка
 
-	=======================================
+
+http://127.0.0.1:8000/catalogue/novelties
+http://127.0.0.1:8000/catalogue/promo
+http://127.0.0.1:8000/catalogue/dress%2Csarafan
+http://127.0.0.1:8000/catalogue/pants
+http://127.0.0.1:8000/catalogue/shorts
+http://127.0.0.1:8000/catalogue/jeans
+http://127.0.0.1:8000/catalogue/skirt
+http://127.0.0.1:8000/catalogue/blouse%2Ccardigan
+http://127.0.0.1:8000/catalogue/tunic
+http://127.0.0.1:8000/catalogue/underwear
+http://127.0.0.1:8000/catalogue/sport
+http://127.0.0.1:8000/catalogue/warm
+http://127.0.0.1:8000/catalogue/coveralls
+http://127.0.0.1:8000/catalogue/coat%2Cponcho%2Cjacket
+http://127.0.0.1:8000/catalogue/all

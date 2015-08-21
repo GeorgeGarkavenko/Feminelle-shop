@@ -28,11 +28,9 @@ urlpatterns = patterns('',
     url(r'^catalogue/(?P<product_class>[|,a-zA-Z_]+)/(?P<page>\d+)$', main.views.products, name='product_class_transition', kwargs={'new_selection': False}),
    
     url(r'^order/$', main.views.order, name='order'),
-    url(r'^basket/$', main.views.basket, name='basket'),
     
     # info
     url(r'^news/$', info.views.news, name='news'),
-    url(r'^news/(?P<pk>\d+)$', info.views.newsItem, name='newsItem'),
      
     url(r'^articles/$', info.views.articles, name='articles'),
     url(r'^articles/sizes_table$', info.views.sizes_table, name='sizes_table'),

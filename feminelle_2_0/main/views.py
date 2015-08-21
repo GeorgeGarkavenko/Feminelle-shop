@@ -45,7 +45,7 @@ from info.models import Message, News, Review
 
 from info.messages import MESSAGES
 
-NOVELTIES_TIME_MODE = True
+
 
 # Some functions
 
@@ -67,7 +67,7 @@ def getProductsAND(productClass, startProductList=None):
         modTimes -= timedelta(hours=1)
         
         for className in productClass:
-            if className == 'novelties' and NOVELTIES_TIME_MODE:
+            if className == 'novelties' and settings.NOVELTIES_TIME_MODE:
                 
                 # get next products list by modTimes (as novelties)
                 resultList = resultList.filter(modtime__gt=modTimes)
@@ -85,7 +85,7 @@ def getProductsOR(productClass, startProductList=None):
     products_list_accepted = Product.objects.filter(accepted=True)
     
     if products_list_accepted:
-        if ('novelties' in productClass) and NOVELTIES_TIME_MODE:
+        if ('novelties' in productClass) and settings.NOVELTIES_TIME_MODE:
             # get day before last product add date
             
             modTimes = max(item.modtime for item in products_list_accepted)
@@ -169,30 +169,39 @@ def handle_basket_query(request):
     return False
 
 def get_badges_info(request):
-    return {
-        # navbar
-        'reviews':          Review.objects.filter(accepted=True).count(),
-        'basket_count':     sum(product['quantity'] for product in request.session.get('basket_products', [])),
-        'news':             News.objects.count(),
-        'articles':         0,
-        'messages':         Message.objects.count(),
+    
+    if not request.session.get('badges_info') or settings.REFRESH_BADGES:
+        request.session['badges_info'] =  {
+            # navbar
+            'reviews':          Review.objects.filter(accepted=True).count(),
+            'news':             News.objects.count(),
+            'articles':         25,
+            'messages':         Message.objects.count(),
+            
+            # sidebar
+            'novelties':        len(getProductsOR(['novelties'])),
+            'promo':            len(getProductsOR(['promo'])),
+            'dress_sarafan':    len(getProductsOR(['dress', 'sarafan'])),
+            'pants':            len(getProductsOR(['pants'])),
+            'shorts':            len(getProductsOR(['shorts'])),
+            'jeans':            len(getProductsOR(['jeans'])),
+            'skirt':            len(getProductsOR(['skirt'])),
+            'blouse_cardigan':  len(getProductsOR(['blouse', 'cardigan'])),
+            'tunic':            len(getProductsOR(['tunic'])),
+            'underwear':        len(getProductsOR(['underwear'])),
+            'sport':            len(getProductsOR(['sport'])),
+            'warm':             len(getProductsOR(['warm'])),
+            'coveralls':        len(getProductsOR(['coveralls'])),
+            'coat_poncho_jacket': len(getProductsOR(['coat', 'poncho','jacket'])),
+            'all':              Product.objects.filter(accepted=True).count()
+        }
+        print 'Get badges!'
         
-        # sidebar
-        'novelties':        len(getProductsOR(['novelties'])),
-        'promo':            len(getProductsOR(['promo'])),
-        'dress_sarafan':    len(getProductsOR(['dress', 'sarafan'])),
-        'pants':            len(getProductsOR(['pants'])),
-        'jeans':            len(getProductsOR(['jeans'])),
-        'skirt':            len(getProductsOR(['skirt'])),
-        'blouse_cardigan':  len(getProductsOR(['blouse', 'cardigan'])),
-        'tunic':            len(getProductsOR(['tunic'])),
-        'underwear':        len(getProductsOR(['underwear'])),
-        'sport':            len(getProductsOR(['sport'])),
-        'warm':             len(getProductsOR(['warm'])),
-        'coveralls':        len(getProductsOR(['coveralls'])),
-        'coat_poncho_jacket': len(getProductsOR(['coat', 'poncho','jacket'])),
-        'all':              Product.objects.filter(accepted=True).count()
-    }
+    request.session['badges_info']['basket_count'] = sum(product['quantity'] for product in request.session.get('basket_products', []))
+    # save changesin session
+    request.session.modified = True
+        
+    return request.session.get('badges_info')
 
 # VIEWS
 
@@ -203,7 +212,11 @@ def home(request):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     print Product.objects.get(id=1, accepted=True).timestamp
     context = {'basket_products': get_basket_products(request),
-               'badges_info': get_badges_info(request) }
+               'badges_info': get_badges_info(request),
+               'novelties_products': list(getProductsOR(['novelties']))[:4],
+               'promo_products': list(getProductsOR(['promo']))[:4],
+               'news': News.objects.all()[:5]
+               }
     template = 'home.html'
     return render(request, template, context)
     
@@ -595,16 +608,3 @@ def order(request):
     template = 'order.html'
     
     return render(request, template, context)
-
-
-def basket(request):
-
-    if handle_basket_query(request):
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    
-    context = {'basket_products': get_basket_products(request),
-                'badges_info': get_badges_info(request) }
-    
-    template = 'basket.html'
-    return render(request, template, context)
-    

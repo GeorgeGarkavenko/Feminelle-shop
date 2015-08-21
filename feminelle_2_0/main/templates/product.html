@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block jquery %}
+    
     function refreshCaptcha(){
         var $form = $("#from_leave_review");
         var url = location.protocol + "//" + window.location.hostname + ":"
@@ -28,6 +29,34 @@
         
         return !refreshCaptcha();
     });
+    
+    // Qantity butttons
+    
+    $('#add_quantity_up').on("click", function(){
+        
+        if ( $("#add_quantity").val() * 1 ) 
+            $("#add_quantity").val($("#add_quantity").val() * 1 + 1);
+        else
+            $("#add_quantity").val('1');
+            
+    });
+    
+    $('#add_quantity_up').on("focus", function(){
+      
+        this.blur();
+    });
+    
+    $('#add_quantity_down').on("click", function(){
+        if ($("#add_quantity").val() > 1) 
+            $("#add_quantity").val($("#add_quantity").val() - 1);
+            
+    });
+    
+    $('#add_quantity_down').on("focus", function(){
+         
+        this.blur();
+    });
+
 
 {% endblock %}
 
@@ -41,7 +70,13 @@
         <tbody>
             <tr>
                 <td>
-                    <img class="img-responsive img-rounded" src='{{ object.image.url }}'/>
+                    <img class="img-responsive img-rounded"
+                        {% if object.image %}
+                            src='{{ object.image.url }}'
+                        {% else %}
+                            src='{% static 'img/no_image.png' %}'
+                        {% endif %}
+                         />
                 </td>
                 <td>
                     <ul>
@@ -99,10 +134,28 @@
                                     </select>
                                
                                <!-- input_text количество -->
-                                   <span class="input-group-addon" id="quantity_label">Количество</span>
-                                   <input id="quantity" name="quantity" value="1"
+                                    <span class="input-group-addon" id="quantity_label">Количество</span>
+                                    <input id="add_quantity" name="quantity" value="1"
                                           type="number" class="form-control" placeholder="Число"
                                           aria-describedby="quantity_label">
+                                    <div class="input-group-btn">
+                                        <table>
+                                            <tr><td>
+                                                <button id='add_quantity_up' type="button" class="btn btn-default dropup"
+                                                        style="height: 17px">
+                                                    <span class="caret" style='margin-bottom: 16px'></span>
+                                                </button>
+                                            </td></tr>
+                                            <tr><td>
+                                                <button id='add_quantity_down' type="button" class="btn btn-default"
+                                                        style="height: 17px">
+                                                    <span class="caret" style='margin-bottom: 16px'></span>
+                                                </button>
+                                            </td></tr>
+                                        </table>
+                                        
+                                        
+                                    </div>
                                </div>
                                <input class="btn btn-success btn-block" id="to_the_basket" type="submit" value="В корзину" />
                            </form>
@@ -117,7 +170,7 @@
     
     <div class="col-md-12">
         <!--Additional product pictures-->
-        <div id="carousel-pictures" class="carousel slide data-interval='1000'" data-ride="carousel">
+        <div id="carousel-pictures" class="carousel slide data-interval='1000'" data-ride="carousel" style="height: 750px">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             {% for image in images %}
@@ -142,8 +195,10 @@
                     class="item"
                 {% endif %}
                 >
-                <img class="img-responsive img-rounded center-block" src='{{ image.reference.url }}'
-                     alt="{{ image.description }}"/>
+                <img class="img-responsive img-rounded center-block"
+                        style="height: 750px"
+                        src='{{ image.reference.url }}'
+                        alt="{{ image.description }}"/>
     
               <div class="carousel-caption">
                 {{ image.description }}
@@ -155,12 +210,12 @@
           </div>
         
           <!-- Controls -->
-          <a class="left carousel-control" href="#carousel-pictures" role="button" data-slide="prev">
-            <i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
+          <a id='carusel_left' class="left carousel-control" href="#carousel-pictures" role="button" data-slide="prev">
+            <i class="fa fa-angle-double-left fa-2x" aria-hidden="true" style="position: relative; top: 340px"></i>
             <span class="sr-only">Предыдущий</span>
           </a>
-          <a class="right carousel-control" href="#carousel-pictures" role="button" data-slide="next">
-            <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
+          <a id='carusel_right' class="right carousel-control" href="#carousel-pictures" role="button" data-slide="next">
+            <i class="fa fa-angle-double-right fa-2x" aria-hidden="true" style="position: relative; top: 340px"></i>
             <span class="sr-only">Следующий</span>
           </a>
         </div>

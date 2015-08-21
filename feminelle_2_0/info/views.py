@@ -11,7 +11,11 @@ from django.shortcuts import ( render,
                               Http404)
 
 # import basket funtionality
-from main.views import handle_basket_query, get_basket_products, get_badges_info
+from main.views import (handle_basket_query,
+                        get_basket_products,
+                        get_badges_info,
+                        getProductsAND,
+                        getProductsOR)
 #==========================
 
 from .forms import MessageForm, ReviewForm
@@ -34,20 +38,6 @@ def news(request):
                 'badges_info': get_badges_info(request) }
     
     template = 'news.html'
-    return render(request, template, context)
-
-def newsItem(request, pk):
-    
-    if handle_basket_query(request):
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    try:
-        context = { 'object': get_object_or_404(News, id=int(pk)),
-                    'basket_products': get_basket_products(request),
-                    'badges_info': get_badges_info(request) }
-    except:
-        raise Http404
-    
-    template = 'newsItem.html'
     return render(request, template, context)
 
 def reviews(request, page):
@@ -137,7 +127,13 @@ def article(request, article):
                'badges_info': get_badges_info(request) }
     
     template = 'article_' + str(article) + '.html'
-    return render(request, template, context)
+    
+    try:
+        result = render(request, template, context)
+    except:
+        raise Http404
+    
+    return result
     
 def contact(request):
     
@@ -190,8 +186,23 @@ def sitemap(request):
     if handle_basket_query(request):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
-    context = {'basket_products': get_basket_products(request),
-               'badges_info': get_badges_info(request) }
+    context = { 'basket_products': get_basket_products(request),
+                'badges_info': get_badges_info(request),
+               
+                'novelties':        list(getProductsOR(['novelties'])),
+                'promo':            list(getProductsOR(['promo'])),
+                'dress_sarafan':    list(getProductsOR(['dress', 'sarafan'])),
+                'pants':            list(getProductsOR(['pants'])),
+                'jeans':            list(getProductsOR(['jeans'])),
+                'skirt':            list(getProductsOR(['skirt'])),
+                'blouse_cardigan':  list(getProductsOR(['blouse', 'cardigan'])),
+                'tunic':            list(getProductsOR(['tunic'])),
+                'underwear':        list(getProductsOR(['underwear'])),
+                'sport':            list(getProductsOR(['sport'])),
+                'warm':             list(getProductsOR(['warm'])),
+                'coveralls':        list(getProductsOR(['coveralls'])),
+                'coat_poncho_jacket': list(getProductsOR(['coat', 'poncho','jacket'])),
+               }
     
     template = 'sitemap.html'
     return render(request, template, context)

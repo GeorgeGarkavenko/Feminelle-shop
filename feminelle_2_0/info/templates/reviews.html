@@ -207,7 +207,7 @@
                     <li class="media" style="border: solid; border-width: 0 0 1px 0; border-color: blue">
                         {% if record.product %}
                         <div class="media-left">
-                            <a href="{% url 'product' pk=record.product.id %}">
+                            <a id="product_img_{{ record.product.id }}" href="{% url 'product' pk=record.product.id %}">
                                 <img class="img-responsive img-rounded"
                                      src='{{ record.product.image.url }}' style="height: 100px"/>
                             </a>
@@ -224,7 +224,7 @@
                                     
                                 {% if record.product %}
                                 <h5>
-                                    (<a href="{% url 'product' pk=record.product.id %}">
+                                    (<a id="product_ref_{{ record.product.id }}" href="{% url 'product' pk=record.product.id %}">
                                         {{ record.product }}
                                     </a>)
                                 </h5>

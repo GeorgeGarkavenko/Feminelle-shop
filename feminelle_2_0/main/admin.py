@@ -38,6 +38,19 @@ class Ordered_product_admin(admin.ModelAdmin):
     list_display = ['__unicode__']
     class Meta:
         model = Ordered_product
+      
+
+class Product_admin(admin.ModelAdmin):
+    list_display = ['__unicode__',
+                    #'get_class', 'promotion','get_colors',
+                    #'image',
+                    'timestamp', 'modtime']
+    inlines = [ImageInline]
+    
+    #raw_id_fields = ("product_color",)
+    
+    class Meta:
+        model = Product
         
 class Product_class_admin(admin.ModelAdmin):
     list_display = ['__unicode__']
@@ -46,7 +59,9 @@ class Product_class_admin(admin.ModelAdmin):
 
         
 class Product_color_admin(admin.ModelAdmin):
-    list_display = ['__unicode__']
+    list_display = ['id', '__unicode__']
+    
+    ordering = ('name',)
     class Meta:
         model = Product_color
 
@@ -57,12 +72,6 @@ class Product_size_admin(admin.ModelAdmin):
         model = Product_size
 
 
-class Product_admin(admin.ModelAdmin):
-    list_display = ['__unicode__', 'timestamp', 'modtime']
-    inlines = [ImageInline]
-    class Meta:
-        model = Product
-        
 class Purchase_order_admin(admin.ModelAdmin):
     list_display = ['__unicode__']
     inlines = [Ordered_productInline]

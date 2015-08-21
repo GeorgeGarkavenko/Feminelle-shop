@@ -80,14 +80,20 @@
             <div class="panel-body">
             {% for product in object_list %}
               <div class="col-sm-4"> 
-                <a href="{% url 'product' pk=product.id %}">
+                <a id="product_img_{{ product.id }}" href="{% url 'product' pk=product.id %}">
                     <img class="img-responsive img-rounded"
-                         src='{{ product.image.url }}' style="height: 400px"/>
+                        {% if product.image %}
+                            src='{{ product.image.url }}'
+                        {% else %}
+                            src='{% static 'img/no_image.png' %}'
+                        {% endif %}
+                         
+                         style="height: 400px"/>
                 </a>
                 
                 <div id='block_info'>
                     
-                    <a href="{% url 'product' pk=product.id %}">
+                    <a id="product_ref_{{ product.id }}" href="{% url 'product' pk=product.id %}">
                         <h3 id="product_name">{{ product }}</h3>
                     </a>
                     

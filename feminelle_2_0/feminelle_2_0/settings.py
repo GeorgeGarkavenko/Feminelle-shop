@@ -36,10 +36,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #'south',
     'captcha',
     'main',
     'info'
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -133,3 +135,19 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 
 MEDIA_URL = '/media/'
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
+
+SITE_ID = 1
+
+# custom settings
+
+NOVELTIES_TIME_MODE = False
+
+REFRESH_BADGES = True

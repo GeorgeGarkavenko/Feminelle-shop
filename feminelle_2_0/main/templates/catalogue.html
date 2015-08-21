@@ -17,13 +17,13 @@
     
 {% block content %}
     <!--novelties-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='novelties' %}">
+    <div id="novelties" class="col-sm-4">
+        <a id="novelties_img" href="{% url 'product_class' product_class='novelties' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/New.jpeg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='novelties' %}">Новинки
+        <a id="novelties_ref" href="{% url 'product_class' product_class='novelties' %}">Новинки
         </a>
         <span class="badge">{{ badges_info.novelties }}</span>
         </h3>
@@ -32,13 +32,13 @@
     
     
     <!--promo-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='promo' %}">
+    <div id="promo" class="col-sm-4">
+        <a id="promo_img" href="{% url 'product_class' product_class='promo' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Promo.jpg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='promo' %}">Распродажа
+        <a id="promo_ref" href="{% url 'product_class' product_class='promo' %}">Распродажа
        </a>
 	<span class="badge">{{ badges_info.promo }}</span>
 	</h3>
@@ -47,13 +47,13 @@
     
     
     <!--dress,sarafan-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='dress,sarafan' %}">
+    <div id="dress_sarafan" class="col-sm-4">
+        <a id="dress_sarafan_img" href="{% url 'product_class' product_class='dress,sarafan' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Dress_sarafan.jpg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='dress,sarafan' %}">Платья, сарафаны
+        <a id="dress_sarafan_ref" href="{% url 'product_class' product_class='dress,sarafan' %}">Платья, сарафаны
        </a>
 	<span class="badge">{{ badges_info.dress_sarafan }}</span>
 	</h3>
@@ -61,13 +61,13 @@
     </div>
     
     <!--pants-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='pants' %}">
+    <div id="pants" class="col-sm-4">
+        <a id="pants_img" href="{% url 'product_class' product_class='pants' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Pants.jpg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='pants' %}">Брюки
+        <a id="pants_ref" href="{% url 'product_class' product_class='pants' %}">Брюки
        </a>
 	<span class="badge">{{ badges_info.pants }}</span>
 	</h3>
@@ -75,13 +75,13 @@
     </div>
     
     <!--jeans-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='jeans' %}">
+    <div id="jeans" class="col-sm-4">
+        <a id="jeans_img" href="{% url 'product_class' product_class='jeans' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Jeans.jpg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='jeans' %}">Джинсы
+        <a id="jeans_ref" href="{% url 'product_class' product_class='jeans' %}">Джинсы
        </a>
 	<span class="badge">{{ badges_info.jeans }}</span>
 	</h3>
@@ -89,13 +89,13 @@
     </div>
              
     <!--skirt-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='skirt' %}">
+    <div id="skirt" class="col-sm-4">
+        <a id="skirt_img" href="{% url 'product_class' product_class='skirt' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Skirts.jpg' %}"/>
         </a><h3>
          
-        <a href="{% url 'product_class' product_class='skirt' %}">Юбки
+        <a id="skirt_ref" href="{% url 'product_class' product_class='skirt' %}">Юбки
        </a>
 	<span class="badge">{{ badges_info.skirt }}</span>
 	</h3>
@@ -103,13 +103,13 @@
     </div>
     
     <!--blouse,cardigan-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='blouse,cardigan' %}">
+    <div id="blouse_cardigan" class="col-sm-4">
+        <a id="blouse_cardigan_img" href="{% url 'product_class' product_class='blouse,cardigan' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Blouse_cardiagan.jpg' %}"/>
         </a><h3>
         
-        <a href="{% url 'product_class' product_class='blouse,cardigan' %}">Блузы, джемперы
+        <a id="blouse_cardigan_ref" href="{% url 'product_class' product_class='blouse,cardigan' %}">Блузы, джемперы
        </a>
 	<span class="badge">{{ badges_info.blouse_cardigan }}</span>
 	</h3>
@@ -117,91 +117,91 @@
     </div>
     
     <!--tunic-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='tunic' %}">
+    <div id="tunic" class="col-sm-4">
+        <a id="tunic_img" href="{% url 'product_class' product_class='tunic' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Tunics.jpg' %}"/>
         </a><h3>
         
-         <a href="{% url 'product_class' product_class='tunic' %}">Туники
+         <a id="tunic_ref" href="{% url 'product_class' product_class='tunic' %}">Туники
         </a>
 	<span class="badge">{{ badges_info.tunic }}</span>
 	</h3>
     </div>
     
     <!--underwear-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='underwear' %}">
+    <div id="underwear" class="col-sm-4">
+        <a id="underwear_img" href="{% url 'product_class' product_class='underwear' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Underwear.jpg' %}"/>
         </a><h3>
         
-         <a href="{% url 'product_class' product_class='underwear' %}">Белье
+         <a id="underwear_ref" href="{% url 'product_class' product_class='underwear' %}">Белье
         </a>
 	<span class="badge">{{ badges_info.underwear }}</span>
 	</h3>
     </div>
     
     <!--sport-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='sport' %}">
+    <div id="sport" class="col-sm-4">
+        <a id="sport_img" href="{% url 'product_class' product_class='sport' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Sport_clothes.jpg' %}"/>
         </a><h3>
         
-         <a href="{% url 'product_class' product_class='sport' %}">Спортивная одежда
+         <a id="sport_ref" href="{% url 'product_class' product_class='sport' %}">Спортивная одежда
         </a>
 	<span class="badge">{{ badges_info.sport }}</span>
 	</h3>
     </div>
     
     <!--warm-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='warm' %}">
+    <div id="warm" class="col-sm-4">
+        <a id="warm_img" href="{% url 'product_class' product_class='warm' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Warm_clothes.jpg' %}"/>
         </a><h3>
          
-         <a href="{% url 'product_class' product_class='warm' %}">Теплая одежда
+         <a id="warm_ref" href="{% url 'product_class' product_class='warm' %}">Теплая одежда
         </a>
 	<span class="badge">{{ badges_info.warm }}</span>
 	</h3>
     </div>
     
     <!--coveralls-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='coveralls' %}">
+    <div id="coveralls" class="col-sm-4">
+        <a id="coveralls_img" href="{% url 'product_class' product_class='coveralls' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Coveralls.jpg' %}"/>
         </a><h3>
          
-         <a href="{% url 'product_class' product_class='coveralls' %}">Комбинезоны
+         <a id="coveralls_ref" href="{% url 'product_class' product_class='coveralls' %}">Комбинезоны
         </a>
 	<span class="badge">{{ badges_info.coveralls }}</span>
 	</h3>
     </div>
     
     <!--top clothes-->
-    <div class="col-sm-4">
-        <a href="{% url 'product_class' product_class='coat,poncho,jacket' %}">
+    <div id="coat_poncho_jacket" class="col-sm-4">
+        <a id="coat_poncho_jacket_img" href="{% url 'product_class' product_class='coat,poncho,jacket' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Top_clothes.jpg' %}"/>
         </a><h3>
         
-         <a href="{% url 'product_class' product_class='coat,poncho,jacket' %}">Верхняя одежда
+         <a id="coat_poncho_jacket_ref" href="{% url 'product_class' product_class='coat,poncho,jacket' %}">Верхняя одежда
         </a>
 	<span class="badge">{{ badges_info.coat_poncho_jacket }}</span>
 	</h3>
     </div>
     
     <!--all-->
-    <div class="col-sm-4">
-        <a href="{% url 'productsAll' %}">
+    <div id="all" class="col-sm-4">
+        <a id="all_img" href="{% url 'productsAll' %}">
             <img class="img-responsive img-rounded" style="height: 300px"
                  src="{% static 'img/catalogue/Jeans.jpg' %}"/>
         </a><h3>
         
-         <a href="{% url 'productsAll' %}">Все вещи
+         <a id="all_ref" href="{% url 'productsAll' %}">Все вещи
         </a>
 	<span class="badge">{{ badges_info.all }}</span>
 	</h3>

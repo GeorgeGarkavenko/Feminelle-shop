@@ -1,37 +1,372 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block head_addition %}
+<!--Styles for jtree-->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/for_sitemap/default/style.min.css' %}" />
+    <style>
+        #jstree {
+            font-size: large;
+        }
+    </style>
+{% endblock styles %}
+
+<!--JQuery-->
+{% block jquery %}
+    $('#jstree').jstree({
+        "core" : {
+            "themes" : {
+              "variant" : "large"
+            }
+          },
+         
+          "plugins" : [ "wholerow" ]
+    });
 
     
-{% endblock head_addition %}
+{% endblock %}
 
+<!--Content-->
 {% block content %}
     
     <div>
         <h1>Карта сайта</h1>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
-        <p class="lead">Some text.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <div id="jstree">
+            <ul id='sitemap'>
+              <!--Home-->
+              <li><a href="{% url 'home' %}">
+                    Домашняя страница
+                 </a>
+              </li>
+              
+              <!--Catalogue-->
+              <li><a href="{% url 'catalogue' %}">
+                    Каталог товаров
+                 </a>
+                <ul>
+                    <li>
+                        <a href="{% url 'product_class' product_class='novelties' %}">
+                            <span class="badge">{{ badges_info.novelties }}</span>
+                            &nbsp;&nbsp;
+                            Новинки
+                        </a>
+                        
+                        {% if novelties %}
+                            <ul>
+                            {% for product in novelties %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'product_class' product_class='promo' %}">
+                            <span class="badge">{{ badges_info.promo }}</span>
+                            &nbsp;&nbsp;
+                            Распродажа
+                        </a>
+                        
+                        {% if promo %}
+                            <ul>
+                            {% for product in promo %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'product_class' product_class='dress,sarafan' %}">
+                            <span class="badge">{{ badges_info.dress_sarafan }}</span>
+                            &nbsp;&nbsp;
+                            Платья, сарафаны
+                        </a>
+                        
+                        {% if dress_sarafan %}
+                            <ul>
+                            {% for product in dress_sarafan %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+               
+                    <li>
+                        <a href="{% url 'product_class' product_class='pants' %}">
+                            <span class="badge">{{ badges_info.pants }}</span>
+                            &nbsp;&nbsp;
+                            Брюки
+                        </a>
+                        
+                        {% if pants %}
+                            <ul>
+                            {% for product in pants %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+               
+                    <li>
+                        <a href="{% url 'product_class' product_class='jeans' %}">
+                            <span class="badge">{{ badges_info.jeans }}</span>
+                            &nbsp;&nbsp;
+                            Джинсы
+                        </a>
+                        
+                        {% if jeans %}
+                            <ul>
+                            {% for product in jeans %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='skirt' %}">
+                            <span class="badge">{{ badges_info.skirt }}</span>
+                            &nbsp;&nbsp;
+                            Юбки
+                        </a>
+                        
+                        {% if skirt %}
+                            <ul>
+                            {% for product in skirt %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='blouse,cardigan' %}">
+                            <span class="badge">{{ badges_info.blouse_cardigan }}</span>
+                            &nbsp;&nbsp;
+                            Блузы, джемперы
+                        </a>
+                        
+                        {% if blouse_cardigan %}
+                            <ul>
+                            {% for product in blouse_cardigan %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='tunic' %}">
+                            <span class="badge">{{ badges_info.tunic }}</span>
+                            &nbsp;&nbsp;
+                            Туники
+                        </a>
+                        
+                        {% if tunic %}
+                            <ul>
+                            {% for product in tunic %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='underwear' %}">
+                            <span class="badge">{{ badges_info.underwear }}</span>
+                            &nbsp;&nbsp;
+                            Белье
+                        </a>
+                        
+                        {% if underwear %}
+                            <ul>
+                            {% for product in underwear %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='sport' %}">
+                            <span class="badge">{{ badges_info.sport }}</span>
+                            &nbsp;&nbsp;
+                            Спортивная одежда
+                        </a>
+                        
+                        {% if sport %}
+                            <ul>
+                            {% for product in sport %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='warm' %}">
+                            <span class="badge">{{ badges_info.warm }}</span>
+                            &nbsp;&nbsp;
+                            Теплая одежда
+                        </a>
+                        
+                        {% if warm %}
+                            <ul>
+                            {% for product in warm %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                         
+                    <li>
+                        <a href="{% url 'product_class' product_class='coveralls' %}">
+                            <span class="badge">{{ badges_info.coveralls }}</span>
+                            &nbsp;&nbsp;
+                            Комбинезоны
+                        </a>
+                        
+                        {% if coveralls %}
+                            <ul>
+                            {% for product in coveralls %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                    
+                    <li>
+                        <a href="{% url 'product_class' product_class='coat,poncho,jacket' %}">
+                            <span class="badge">{{ badges_info.coat_poncho_jacket }}</span>
+                            &nbsp;&nbsp;
+                            Верхняя одежда
+                        </a>
+                        
+                        {% if coat_poncho_jacket %}
+                            <ul>
+                            {% for product in coat_poncho_jacket %}
+                                <li>
+                                    <a href="{% url 'product' pk=product.id %}">
+                                        {{ forloop.counter }}.&nbsp;{{ product }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                </ul>
+                
+              </li>
+              
+              <!--Order-->
+              <li><a href="{% url 'order' %}">
+                    Cтраница заказа
+                 </a>
+              </li>
+              
+              <!--Reviews-->
+              <li><a href="{% url 'reviews' page=1 %}">
+                    <span class="badge">{{ badges_info.reviews }}</span>
+                    &nbsp;&nbsp;
+                    Отзывы
+                 </a>
+              </li>
+              
+              <!--News-->
+              <li><a href="{% url 'news' %}">
+                    <span class="badge">{{ badges_info.news }}</span>
+                    &nbsp;&nbsp;
+                    Новости
+                 </a>
+              </li>
+              
+              <!--Articles-->
+              <li><a href="{% url 'articles' %}">
+                    <span class="badge">{{ badges_info.articles }}</span>
+                    &nbsp;&nbsp;
+                    Статьи
+                 </a>
+              </li>
+              
+              <!--Sizes table-->
+              <li><a href="{% url 'sizes_table' %}">
+                    Таблица размеров
+                 </a>
+              </li>
+              
+              <!--Contacts-->
+              <li><a href="{% url 'contact' %}">
+                    Контакты
+                 </a>
+              </li>
+              
+              <!--Site map-->
+              <li><a href="{% url 'sitemap' %}">
+                    Карта сайта
+                 </a>
+              </li>
+              
+              <!--Vk Feminelle-->
+              <li><a href="https://vk.com/feminellepregnant">
+                    Страница ТМ Feminelle Вконтакте
+                 </a>
+              </li>
+              
+            </ul>
+        </div>
+        
+
+        
     </div>
 
 {% endblock content %}
+

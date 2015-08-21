@@ -1,0 +1,1083 @@
+<DESIGHN>
+    <MAIN>
+        <application>
+            <main>
+                <Product></Product>
+                <Orders></Orders>
+                <Basket></Basket>
+            </main>
+            <info>
+                <Reviews></Reviews>
+                <Messages></Messages>
+                <Articles></Articles>
+                <Info></Info>
+            </info>
+        </application>
+        
+        <paragraphs>
+            <Products>
+                <catalogue>
+                    <item>page</item>
+                    <item>left products menue</item>
+                    <item>categories counts (lazy: if products is altered in DB)</item>
+                </catalogue>
+                
+                <products>
+                    <categories>
+                        novelties
+                            (if not a class, last hour added/altered products (may disable))
+                        promo
+                        dress
+                        sarafan
+                        pants
+                        shorts
+                        jeans
+                        skirt
+                        blouse
+                        cardigan
+                        tunic
+                        underwear
+                        sport
+                        warm
+                        coveralls
+                        coat
+                        poncho
+                        jacket
+                        all (not a Product_class)
+                    </categories>
+                    <feature>
+                        lazy products list download:
+                            only first entry of the set, pagination links will use cach products set
+                    </feature>
+                </products>
+                
+                <sorted_by>
+                    name
+                    price
+                    popularity
+                    date
+                    asc/desc order
+                </sorted_by>
+                
+                <pagination>
+                    products quantity per page
+                </pagination>
+                
+                <search search_in="Product">
+                    <main>
+                        <search_fields>
+                            product_class
+                            product_color
+                            product_size
+                            article
+                            name
+                            manufacturer
+                            season
+                            structure
+                            description
+                            promotion
+                            note
+                        </search_fields>
+                        
+                    </main>
+                    <future_extention>
+                        <search_categorys>
+                            <static_pages>
+                                home
+                                catalogue
+                                history
+                            </static_pages>
+                            
+                            <models>
+                                Review
+                                News
+                            </models>
+                            
+                            <templates>
+                                Articles
+                            </templates>
+                        </search_categorys>
+                    </future_extention>
+                </search>
+                
+                <prices>
+                    if promotion price (promotioin_modifier) not 0, display it too
+                </prices>
+                
+                <badges>
+                    <navbar>
+                        reviews
+                        basket_count
+                        news
+                        articles
+                    </navbar>
+                    
+                    <sidebar>
+                        novelties
+                        promo
+                        dress_sarafan
+                        pants
+                        shorts
+                        jeans
+                        skirt
+                        blouse_cardigan
+                        tunic
+                        underwear
+                        sport
+                        warm
+                        coveralls
+                        coat_poncho_jacket
+                        all
+                    </sidebar>
+                </badges>
+                
+                <cookies>
+                    sessions expiry time: one day
+                </cookies>
+            </Products>
+            <Orders>
+                <fields>
+                    email*
+                    name
+                    city
+                    address*
+                    phone*
+                    fax
+                    
+                    brests
+                    grouth
+                    hips
+                    
+                    delivery
+                    payment
+                    note
+                    captcha
+                </fields>
+                
+                <other>
+                    all ordered products
+                    total price
+                    AutoComplete(?)
+                    captcha
+                </other>
+                
+                <promotions>
+                    <item>
+                        promotional merchandise (included in basket price)
+                    </item>
+                    <item>
+                        regular customer discount
+                    </item>
+                </promotions>
+                
+                <basket>
+                    basket usig sessions (SETTINGS: LocMemCache and cached_db engine)
+                    Ordered_product list in request.sessioin
+                </basket>
+            </Orders>
+            <Info>
+                <languages>
+                    russian
+                    ukrainian
+                    english
+                </languages>
+                <static_support>
+                    terms of payment
+                    delivery
+                    
+                    sizes
+                    articles,
+                    history
+                </static_support>
+                
+                <sitemap></sitemap>
+                <news></news>
+                <reviews>
+                    <features>
+                        email or new one
+                        captcha
+                        media output
+                    </features>
+                    <pagination>
+                        <feature>
+                            product reviews quantity on product page: all
+                        </feature>
+                        <feature>
+                            all reviews quantity per page: 5 (NOVELTIES_TIME_MODE)
+                        </feature>
+                    </pagination>
+                </reviews>
+                <messages>
+                    Personal messages to administration
+                </messages>
+            </Info>
+        </paragraphs>
+        
+        <web_pages>
+            <backend></backend>
+            <frontend></frontend>
+            <links>
+                <item>home
+                    <point_pages>
+                        feminelle logo
+                        navbar
+                    </point_pages>
+                </item>
+                <item>news
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>catalogue
+                    <point_pages>
+                        navbar
+                    </point_pages>
+                </item>
+                <item>sizes table
+                    <point_pages>
+                        navbar
+                    </point_pages>
+                </item>
+
+                <item>products
+                    <point_pages>
+                        sidebar
+                        navbar
+                    </point_pages>
+                </item>
+                <item>product
+                    <point_pages>
+                        galery
+                        backet 
+                    </point_pages>
+                </item>
+                <item>order
+                    <point_pages>
+                        backet
+                    </point_pages>
+                </item>
+                <item>basket
+                    <point_pages>
+                        navbar
+                    </point_pages>
+                </item>
+                <item>reviews
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>news
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>articles
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                
+                <item>contact
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>history
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>sitemap
+                    <point_pages>
+                        navbar/Инфо
+                    </point_pages>
+                </item>
+                <item>404
+                    <point_pages></point_pages>
+                </item>
+                <item>400
+                    <point_pages></point_pages>
+                </item>
+                <item>500
+                    <point_pages></point_pages>
+                </item>
+		
+            </links>
+        </web_pages>
+        
+        <forms>
+            <base>
+                <search>
+                    <text>поиск</text>
+                    <submit>Найти</submit>
+                </search>
+                
+                <!--<language>
+                    <button>русский</button>
+                    <button>украинский</button>
+                    <button>английский</button>
+                </language>-->
+            </base>
+            <products>
+                <sort_form>
+                    <select name="Сортировка">
+                        <option>название товара</option>
+                        <option>дата поступления</option>
+                        <option>цена</option>
+                        <option>популярность</option>
+                    </select>
+                    
+                    <select name="Количество">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>75</option>
+                        <option>Все</option>
+                    </select>
+                    <button name="order">
+                        <option>ascending</option>
+                        <option>descending</option>
+                    </button>
+                </sort_form>
+            </products>
+            <product>
+                <order_product>
+                    <select name="Количество"></select>
+                    <select name="Количество"></select>
+                    <text>количество</text>
+                    <submit>В корзину</submit>
+                </order_product>
+                
+                <leave_review>
+                    <text>Имя</text>
+                    <text>e-mail</text>
+                    <text>Тема</text>
+                    <text>Текст</text>
+                    <checkbox>Не показывать имя</checkbox>
+                    <captcha>
+                        <image></image>
+                        <button name="refresh"></button>
+                        <text></text>
+                    </captcha>
+                    <submit>Отправить</submit>
+                </leave_review>
+            </product>
+            <order>
+                <order_form>
+                    <text blank="no">email</text>
+                    <text>name</text>
+                    <text>city</text>
+                    <text>address</text>
+                    <text>phone</text>
+                    <text>fax</text>
+                    
+                    <text>brests</text>
+                    <text>grouth</text>
+                    <text>hips</text>
+                    
+                    <select name="delivery">
+                        <option>без доставки</option>
+                        <option>«Укрпочта» (несрочная, срочная)</option>
+                        <option>«Новая почта»</option>
+                        <option>«Автолюкс»</option>
+                        <option>«Ин-Тайм»</option>
+                    </select>
+                    <select name="payment">
+                        <option>Наличными представителю (г. Киев)</option>
+                        <option>Банковский перевод</option>
+                        <option>Наложенный платеж</option>
+                    </select>
+                    <textarea naem="note"></textarea>
+                    
+                    <captcha>
+                        <image></image>
+                        <button name="refresh"></button>
+                        <text></text>
+                    </captcha>
+                    
+                    <submit>Заказать</submit>
+                </order_form>
+            </order>
+            <basket>
+                <ordered_product>
+                    <text>текущее количество</text>
+                    <button>обновить</button>
+                    <button>удалить</button>
+                </ordered_product>
+            </basket>
+            <reviews>
+                <leave_review>
+                    <text>Имя</text>
+                    <text>e-mail</text>
+                    <text>Тема</text>
+                    <text>Текст</text>
+                    <checkbox>Не показывать имя</checkbox>
+                    <captcha>
+                        <image></image>
+                        <button name="refresh"></button>
+                        <text></text>
+                    </captcha>
+                    <submit>Отправить</submit>
+                </leave_review>
+            </reviews>
+            <contact>
+                <send_message>
+                    <text>Имя</text>
+                    <text>e-mail</text>
+                    <text>Тема</text>
+                    <text>Текст</text>
+                    <checkbox>Отослать копию посылающему</checkbox>
+                    <captcha>
+                        <image></image>
+                        <button name="refresh"></button>
+                        <text></text>
+                    </captcha>
+                    <submit>Отправить</submit>
+                </send_message>
+            </contact>
+            
+        </forms> <product_classification>
+            <novelities>
+                <name>Новинки</name>
+                <href>http://127.0.0.1:8000/catalogue/novelties</href>
+            </novelities>
+            
+            <prom>
+                <name>Распродажа</name>
+                <href>http://127.0.0.1:8000/catalogue/promo</href>
+            </prom>
+            
+            <dress_sarafan>
+                <name>Платья, сарафаны</name>
+                <href>http://127.0.0.1:8000/catalogue/dress%2Csarafan</href>
+            </dress_sarafan>
+            
+            <pants>
+                <name>Брюки</name>
+                <href>http://127.0.0.1:8000/catalogue/pants</href>
+            </pants>
+            
+            <shorts>
+                <name>Шорты</name>
+                <href>http://127.0.0.1:8000/catalogue/shorts</href>
+            </shorts>
+            
+            <jeans>
+                <name>Джинсы</name>
+                <href>http://127.0.0.1:8000/catalogue/jeans</href>
+            </jeans>
+            
+            <skirt>
+                <name>Юбки</name>
+                <href>http://127.0.0.1:8000/catalogue/skirt</href>
+            </skirt>
+            
+            <blouse_cardigan>
+                <name>Блузы, джемперы</name>
+                <href>http://127.0.0.1:8000/catalogue/blouse%2Ccardigan</href>
+            </blouse_cardigan>
+            
+            <tunic>
+                <name>Туники</name>
+                <href>http://127.0.0.1:8000/catalogue/tunic</href>
+            </tunic>
+            
+            <underwear>
+                <name>Белье</name>
+                <href>http://127.0.0.1:8000/catalogue/underwear</href>
+            </underwear>
+            
+            <sport>
+                <name>Спортивная одежда</name>
+                <href>http://127.0.0.1:8000/catalogue/sport</href>
+            </sport>
+            
+            <warm>
+                <name>Теплая одежда</name>
+                <href>http://127.0.0.1:8000/catalogue/warm</href>
+            </warm>
+            
+            <coveralls>
+                <name>Комбинезоны</name>
+                <href>http://127.0.0.1:8000/catalogue/coveralls</href>
+            </coveralls>
+            
+            <coat_poncho_jacket>
+                <name>Верхняя одежда</name>
+                <href>http://127.0.0.1:8000/catalogue/coat%2Cponcho%2Cjacket</href>
+            </coat_poncho_jacket>
+            
+            <all>
+                <name>Все вещи</name>
+                <href>http://127.0.0.1:8000/catalogue/all</href>
+            </all>
+        </product_classification>
+    </MAIN>
+    
+    <DB>
+        <main_tables>
+            products
+            orders
+            ordered_products
+            customers
+            news
+            reviews
+        </main_tables>
+        
+        <product>
+            <article></article>
+	    <position></position>
+	    <name></name>
+            <product_class>
+                <many_to_many>product_class</many_to_many>
+            </product_class>
+            <anufacturer></anufacturer>
+            <season></season>
+            <product_color>
+                <many_to_many>product_color</many_to_many>
+            </product_color>
+            <product_size>
+                <many_to_many>product_size</many_to_many>
+            </product_size>
+            <image></image>
+            <structure></structure>
+            <description></description>
+            <promotion></promotion>
+            <reserve></reserve>
+            <price></price>
+            <popularity></popularity>
+            <note></note>
+            <timestamp></timestamp>
+            <modtime></modtime>
+            <accepted></accepted>
+        </product>
+        
+        <product_image>
+            <reference></reference>
+	    <product_id>
+                <foreign_key>product</foreign_key>
+            </product_id>
+        </product_image>
+        
+        <product_class>
+            <name></name>
+        </product_class>
+        
+        <purchase_order>
+            <timestamp></timestamp>
+            <customer></customer>
+            <delivery></delivery>
+            <payment></payment>
+            <note></note>
+            <price></price>
+            <satisfied></satisfied>
+        </purchase_order>
+        
+        <ordered_product>
+            <order_id>
+                <foreign_key>purchase_order</foreign_key>
+            </order_id> 
+            <product_id>
+                <foreign_key>product</foreign_key>
+            </product_id>
+            <quantity></quantity>
+            <price></price>
+        </ordered_product>
+        
+        <customer>
+            <email blank="no"></email>
+            <name></name>
+            <brests></brests>
+            <chest></chest>
+            <hips></hips>
+            <promotioin></promotioin>
+            <promotioin_modifier></promotioin_modifier>
+            <registration_time></registration_time>
+        </customer>
+        
+        <address>
+            <customer_id>
+                <foreign_key>customer</foreign_key>
+            </customer_id>
+            <city></city>
+            <address></address>
+            <fax></fax>
+            <phone></phone>
+        </address>
+		
+	<news>
+            title
+            text
+            author
+            date
+            
+        </news>
+		
+	<review>
+            <title></title>
+            <text></text>
+            <author></author>
+            <email></email>
+            <date></date>
+            <accepted></accepted>
+            <product_id>
+                <foreign_key>product</foreign_key>
+            </product_id>
+        </review>
+		
+	
+	<message>
+            <title></title>
+            <text></text>
+            <author></author>
+            <email></email>
+            <date></date>
+            <self_sended></self_sended>
+        </message>
+		
+    </DB>
+    
+    <TESTS>
+        <POSITIVE>
+            <page_load use="use defaults: sort, pagination, empty basket, " automation='Yes'>
+                home
+                catalogue
+                all products (init page)
+                product (id 1)
+                product classes (init page): (Product classification)
+                order
+                news
+                articles
+                sizes table
+                article 'pregnancy'
+                reviews (page 1)
+                contact
+                sitemap
+                admin
+            </page_load>
+            
+            
+            <examine_links automation='Yes'>
+                <main  command="$  ls main/templates/ | xargs -l -i basename {} .html | xargs -l -i echo -\ {}\ \(\ \) ">
+                    <error_400></error_400>
+                    <error_404></error_404>
+                    <error_500></error_500>
+                    <base></base>
+                    <catalogue targets="pictures, links">
+                        <novelities>
+                            <name>Новинки</name>
+                            <href>http://127.0.0.1:8000/catalogue/novelties</href>
+                        </novelities>
+                        
+                        <prom>
+                            <name>Распродажа</name>
+                            <href>http://127.0.0.1:8000/catalogue/promo</href>
+                        </prom>
+                        
+                        <dress_sarafan>
+                            <name>Платья, сарафаны</name>
+                            <href>http://127.0.0.1:8000/catalogue/dress%2Csarafan</href>
+                        </dress_sarafan>
+                        
+                        <pants>
+                            <name>Брюки</name>
+                            <href>http://127.0.0.1:8000/catalogue/pants</href>
+                        </pants>
+                        
+                        <shorts>
+                            <name>Шорты</name>
+                            <href>http://127.0.0.1:8000/catalogue/shorts</href>
+                        </shorts>
+                        
+                        <jeans>
+                            <name>Джинсы</name>
+                            <href>http://127.0.0.1:8000/catalogue/jeans</href>
+                        </jeans>
+                        
+                        <skirt>
+                            <name>Юбки</name>
+                            <href>http://127.0.0.1:8000/catalogue/skirt</href>
+                        </skirt>
+                        
+                        <blouse_cardigan>
+                            <name>Блузы, джемперы</name>
+                            <href>http://127.0.0.1:8000/catalogue/blouse%2Ccardigan</href>
+                        </blouse_cardigan>
+                        
+                        <tunic>
+                            <name>Туники</name>
+                            <href>http://127.0.0.1:8000/catalogue/tunic</href>
+                        </tunic>
+                        
+                        <underwear>
+                            <name>Белье</name>
+                            <href>http://127.0.0.1:8000/catalogue/underwear</href>
+                        </underwear>
+                        
+                        <sport>
+                            <name>Спортивная одежда</name>
+                            <href>http://127.0.0.1:8000/catalogue/sport</href>
+                        </sport>
+                        
+                        <warm>
+                            <name>Теплая одежда</name>
+                            <href>http://127.0.0.1:8000/catalogue/warm</href>
+                        </warm>
+                        
+                        <coveralls>
+                            <name>Комбинезоны</name>
+                            <href>http://127.0.0.1:8000/catalogue/coveralls</href>
+                        </coveralls>
+                        
+                        <coat_poncho_jacket>
+                            <name>Верхняя одежда</name>
+                            <href>http://127.0.0.1:8000/catalogue/coat%2Cponcho%2Cjacket</href>
+                        </coat_poncho_jacket>
+                        
+                        <all>
+                            <name>Все вещи</name>
+                            <href>http://127.0.0.1:8000/catalogue/all</href>
+                        </all>
+                    </catalogue>
+                    
+                    <home>
+                        <carusel_baner type="right">
+                            #carousel-pictures
+                        </carusel_baner>
+                        
+                        <carusel_baner type="left">
+                            #carousel-pictures
+                        </carusel_baner>
+                        <novelties>
+                            <header></header>
+                            <product option="first">
+                                <picture></picture>
+                                <reference></reference>
+                            </product>
+                        </novelties>
+                        
+                        <promo>
+                            <header></header>
+                            <product option="first">
+                                <picture></picture>
+                                <reference></reference>
+                            </product>
+                        </promo>
+                        
+                        <news>section header button</news>
+                    </home>
+                    <messages_generator></messages_generator>
+                    <navbar>
+                        <logo_home_page>http://127.0.0.1:8000/</logo_home_page>
+                        <catalogue>http://127.0.0.1:8000/catalogue/</catalogue>
+                        <basket>#
+                            <first_product_picture></first_product_picture>
+                            <order_button>http://127.0.0.1:8000/order/</order_button>
+                        </basket>
+                        <info>
+                            <reviews>http://127.0.0.1:8000/reviews/1</reviews>
+                            <news>http://127.0.0.1:8000/news/</news>
+                            <articles>http://127.0.0.1:8000/articles/</articles>
+                            <sizes_table>http://127.0.0.1:8000/articles/sizes_table</sizes_table>
+                            <contacts>http://127.0.0.1:8000/contact/</contacts>
+                            <sitemap>http://127.0.0.1:8000/sitemap/</sitemap>
+                        </info>
+                    </navbar>
+                    <order></order>
+                    <paginator>
+                        <previous_page></previous_page>
+			<next_page></next_page>
+			<first_page></first_page>
+                    </paginator>
+                    
+                    <paginator_products>
+                        <previous_page></previous_page>
+			<next_page></next_page>
+			<first_page></first_page>
+                    </paginator_products>
+                    
+                    <product>
+                        <carusel_baner type="right">
+                            #carousel-pictures
+                        </carusel_baner>
+                        
+                        <carusel_baner type="left">
+                            #carousel-pictures
+                        </carusel_baner>
+                    </product>
+                    
+                    <products>
+                        <product option="first">
+                            <picture></picture>
+                            <reference></reference>
+                        </product>
+                    </products>
+                    
+                    <sidebar>
+                        links, Product classification
+                    </sidebar>    
+                </main>
+                
+                
+                <info  command="$  ls info/templates/ | xargs -l -i basename {} .html | xargs -l -i echo -\ {}\ \(\ \) ">
+                    <articles>
+                        articles list check
+                    </articles>
+		    <contact></contact>
+		    <history></history>
+		    <news></news>
+                    <newsItem></newsItem>
+		    <reviews>
+                        <review option="first">
+                            <picture></picture>
+                            <reference></reference>
+                        </review>
+                    </reviews>
+                    <sitemap>
+                        ?
+                    </sitemap>
+		    <sizes_table></sizes_table>
+                </info>
+            </examine_links>
+            
+            
+            <test_main_backend>
+                <main>
+                    <products>
+                        <content_viewing></content_viewing>
+                        <sort></sort>
+                        <paginator>
+                            <transitions>
+                                <this_page>
+                                    <to_first_from>
+                                        init
+                                        first
+                                        last
+                                        middle
+                                    </to_first_from>
+                                    <to_last_from>
+                                        init
+                                        first
+                                        last
+                                        middle
+                                    </to_last_from>
+                                    <to_prev_from>
+                                        init
+                                        first
+                                        last
+                                        middle
+                                    </to_prev_from>
+                                    <to_next_from>
+                                        init
+                                        first
+                                        last
+                                        middle
+                                    </to_next_from>
+                                    <to_rand_middle_from>
+                                        init
+                                        first
+                                        last
+                                        middle
+                                    </to_rand_middle_from>
+                                </this_page>
+                                
+                                <other_page>
+                                    <to_first></to_first>
+                                    <to_last></to_last>
+                                    <to_middle></to_middle>
+                                </other_page>
+                                
+                            </transitions>
+                        </paginator>
+                        
+                        <products_classes_selections condition="Yes"></products_classes_selections>
+                    </products>
+                    <product>
+                        <content_viewing>
+                            <product_info>
+                                <title_image></title_image>
+                                
+                            </product_info>
+                            <form_info>
+                                <sizes></sizes>
+                                <colors></colors>
+                                <initial_value></initial_value>
+                            </form_info>
+                        </content_viewing>
+                        
+                    </product>
+                    <basket>
+                        <order_product>
+                            <case><name>first init adding</name>
+                            </case>
+                            
+                            <case><name>repeated adding</name>
+                                <last_action>
+                                    same product added to basket
+                                </last_action>
+                            </case>
+                            
+                        </order_product>
+                        
+                        <alter_basket_content>
+                            <change_item>
+                                <case><name>alter product (positive)</name>
+                                    <action>change one product quantity, and commit</action>
+                                </case>
+                                
+                                <case><name>alter product (negative)</name>
+                                    <action>change one product quantity, transit to order</action>
+                                </case>
+                            </change_item>
+                            
+                            <delete_item>
+                                <case><name>delete product</name>
+                                </case>
+                                <case><name>alter product (delete)</name>
+                                <action>change one product quantity to zero, and commit</action>
+                            </case>
+                            </delete_item>
+                            
+                            <aboriting>
+                                <case><name>alter product (negative)</name>
+                                    <action>change one product quantity, transit to order</action>
+                                </case>
+                            </aboriting>
+                        </alter_basket_content>
+                    </basket>
+		    <order>
+                        <case><name>make order (positive)</name>
+                            <basket>have at most 2 kinds of products</basket>
+                        </case>
+                        
+                        <case><name>make order (negative)</name>
+                            <basket>empty</basket>
+                        </case>
+                        
+                        <case><name>make order, same customer (positive)</name>
+                            <basket>have at most 2 kinds of products</basket>
+                            <term>email in DB</term>
+                            <term>Same name</term>
+                        </case>
+                        
+                        <case><name>make empty order (negative)</name>
+                            <basket>have at most 2 kinds of products</basket>
+                        </case>
+                        
+                        <case><name>make order minimal, old customer (positive)</name>
+                            <basket>have at most 2 kinds of products</basket>
+                            <term>email in DB</term>
+                        </case>
+                        
+                        <case><name>make order minimal, new customer (positive)</name>
+                            <basket>have at most 2 kinds of products</basket>
+                            <term>email not in DB</term>
+                        </case>
+                    </order>
+		    
+		    <search>
+                        
+                    </search>
+                    
+		    
+                </main>
+                
+                <info></info>
+            </test_main_backend>
+            
+            <test_frontend>
+                <features>
+                    <captcha>
+                        <ordir></ordir>
+                        <review></review>
+                        <message></message>
+                    </captcha>
+                </features>
+                <css_sizing_blocks></css_sizing_blocks>
+            </test_frontend>
+        </POSITIVE>
+        
+        <NEGATIVE>
+            
+        </NEGATIVE>
+    </TESTS>
+    
+    <INFO>
+        <manufacturer>
+            <name>ЧП Василевская Алла</name>
+            
+            <phones>
+                <phone>0975150840</phone>
+                <phone>0632179423</phone>
+                <phone>0507327825</phone>
+            </phones>
+            
+            <emails>
+                <email>alla.vasilevskaya@gmail.com</email>
+            </emails>
+            
+            <social_networks>
+                
+                <network name="Vkontacte">
+                    <group>
+                        <name>Feminelle для беременных</name>
+                        <link>https://vk.com/feminellepregnant</link>
+                    </group>
+                    <peronal_page>
+                        <name>Алла Ардо</name>
+                        <link>'https://vk.com/id258917628'</link>
+                    </peronal_page>
+                </network>
+                
+            </social_networks> </manufacturer>
+    </INFO>
+    
+    <EXAMPLES>
+        http://krasivamama.sells.com.ua/
+        http://www.womenmagazine.kiev.ua/
+        http://mama-lama.com.ua/
+    </EXAMPLES>
+    
+    <TEXT_SAMPLES>
+        <product_classes>
+            <names>
+                Новинки (novelities) 
+                Распродажа (promo) 
+                Платья, сарафаны  (dress,sarafan) 
+                Брюки (pants)
+                Шорты (shorts)
+                Джинсы (jeans) 
+                Юбки (skirt) 
+                Блузы, джемперы  (blouse,cardigan) 
+                Туники  (tunic) 
+                Белье (underwear) 
+                Спортивная одежда  (sport) 
+                Теплая одежда (warm) 
+                Комбинезоны (coveralls) 
+                Верхняя одежда (coat,poncho,jacket) 
+                Все вещи ()
+            </names>
+            <links>
+                http://127.0.0.1:8000/catalogue/novelties
+                http://127.0.0.1:8000/catalogue/promo
+                http://127.0.0.1:8000/catalogue/dress%2Csarafan
+                http://127.0.0.1:8000/catalogue/pants
+                http://127.0.0.1:8000/catalogue/shorts
+                http://127.0.0.1:8000/catalogue/jeans
+                http://127.0.0.1:8000/catalogue/skirt
+                http://127.0.0.1:8000/catalogue/blouse%2Ccardigan
+                http://127.0.0.1:8000/catalogue/tunic
+                http://127.0.0.1:8000/catalogue/underwear
+                http://127.0.0.1:8000/catalogue/sport
+                http://127.0.0.1:8000/catalogue/warm
+                http://127.0.0.1:8000/catalogue/coveralls
+                http://127.0.0.1:8000/catalogue/coat%2Cponcho%2Cjacket
+                http://127.0.0.1:8000/catalogue/all
+            </links>
+        </product_classes>
+    </TEXT_SAMPLES>
+</DESIGHN>

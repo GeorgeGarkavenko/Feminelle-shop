@@ -37,7 +37,7 @@ class Product(models.Model):
     
     product_class = models.ManyToManyField(Product_class, related_name='product_class+', null=True, blank=True)
     
-    manufacturer = models.CharField(max_length=100, default='feminelle')
+    manufacturer = models.CharField(max_length=100, default='TM \"Feminelle\"')
     
     # parameters info
     season = models.CharField(max_length=25, null=True, blank=True)
@@ -85,6 +85,12 @@ class Product(models.Model):
     
     def has_note(self):
         return bool(self.note)
+    
+    def get_class(self):
+        return self.product_class.get_queryset()
+    
+    def get_colors(self):
+        return self.product_color.get_queryset()
         
 class Product_image(models.Model):
     
