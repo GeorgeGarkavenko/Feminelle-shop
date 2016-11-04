@@ -2,6 +2,6 @@
 
 Site for TM Feminelle, Ukraine
 
-Clothse for pregnant
+Clothes for pregnant
 
-Simple internet shop writen on Django/Python2.6
+Simple internet shop written on Django/Python2.6
